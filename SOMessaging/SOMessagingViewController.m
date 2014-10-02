@@ -71,6 +71,7 @@
     [self.view addSubview:self.tableView];
     
     self.inputView = [[SOMessageInputView alloc] init];
+    self.inputView.tintColor = [UIColor blueColor];
     self.inputView.delegate = self;
     self.inputView.tableView = self.tableView;
     [self.view addSubview:self.inputView];

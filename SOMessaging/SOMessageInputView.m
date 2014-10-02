@@ -327,7 +327,7 @@
     
     [UIView animateWithDuration:duration animations:^{
         [UIView setAnimationCurve:curve];
-        self.frame = frame;
+        [self adjustTextViewSize];
     }];
     
     //Closing keyboard on tap
