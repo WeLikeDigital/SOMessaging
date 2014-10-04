@@ -66,4 +66,14 @@
  */
 @property (nonatomic) SOMessageType type;
 
+/**
+ * Progress of uploading media between 0 and 1 
+ */
+@property (nonatomic, readwrite) CGFloat progress;
+
+/**
+ * Boolean value that indicates is media uploading right now
+ */
+@property (nonatomic, readwrite) BOOL isUploading;
+
 @end
