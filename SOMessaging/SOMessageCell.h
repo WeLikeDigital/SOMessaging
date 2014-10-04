@@ -31,6 +31,8 @@
 #define kBubbleBottomMargin 20
 
 @class SOMessageCell;
+@class DAProgressOverlayView;
+
 @protocol SOMessageCellDelegate <NSObject>
 
 @optional
@@ -51,6 +53,8 @@
 @property (strong, nonatomic) UILabel *timeLabel; //appears while dragging cell
 @property (strong, nonatomic) UIImageView *mediaImageView;
 @property (strong, nonatomic) UIView *mediaOverlayView; // For video only
+@property (strong, nonatomic) DAProgressOverlayView *progressView;
+
 
 @property (strong, nonatomic) UIImageView *balloonImageView;
 

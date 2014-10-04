@@ -284,7 +284,7 @@
         [self scrollToCaretInTextView:self.textView animated:NO];
     }
     
-    [self adjustTableViewWithCurve:NO scrollsToBottom:YES];
+    [self adjustTableViewWithCurve:NO scrollsToBottom:NO];
 }
 
 - (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated

@@ -53,4 +53,9 @@
  */
 - (void)refreshMessages;
 
+/**
+ * Reloading only uploading media cells
+ */
+-(void)refreshUploadingStatus;
+
 @end

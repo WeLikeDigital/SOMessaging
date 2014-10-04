@@ -24,6 +24,7 @@
 
 #import "SOMessageCell.h"
 #import "NSString+Calculation.h"
+#import "DAProgressOverlayView.h"
 
 @interface SOMessageCell() < UIGestureRecognizerDelegate>
 {
@@ -384,6 +385,31 @@ static BOOL cellIsDragging;
     }
     
     self.mediaImageView.frame = frame;
+    
+    self.progressView = nil;
+    if (self.message.isUploading) {
+        
+        self.progressView = [[DAProgressOverlayView alloc] initWithFrame:frame];
+        [self.mediaImageView addSubview:self.progressView];
+        
+        if (self.message.progress == 0) {
+            [self.progressView displayOperationWillTriggerAnimation];
+        }
+        
+        if (self.message.progress < 1) {
+            self.progressView.progress = self.message.progress;
+        }
+        else {
+            [self.progressView displayOperationDidFinishAnimation];
+            double delayInSeconds = self.progressView.stateChangeAnimationDuration;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                self.message.isUploading = NO;
+                self.message.progress = 0;
+                [self.progressView removeFromSuperview];
+            });
+        }
+    }
 
     self.balloonImageView.frame = frame;
     self.balloonImageView.backgroundColor = [UIColor clearColor];

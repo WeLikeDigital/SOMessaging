@@ -375,6 +375,36 @@
     }
 }
 
+-(void)refreshUploadingStatus
+{
+    NSMutableArray* mediaUploadingCellsIndexPaths = [@[] mutableCopy];
+    
+    for (id<SOMessage> message in self.messages) {
+        if (message.isUploading) {
+            NSIndexPath *indexPath = [self indexPathForMessage:message];
+            if (indexPath) {
+                [mediaUploadingCellsIndexPaths addObject:indexPath];
+            }
+        }
+    }
+    
+    [self.tableView reloadRowsAtIndexPaths:mediaUploadingCellsIndexPaths
+                          withRowAnimation:UITableViewRowAnimationNone];
+}
+
+-(NSIndexPath *)indexPathForMessage:(id<SOMessage>)message
+{
+    for (NSInteger section=0; section<self.conversation.count; section++) {
+        NSArray *conversation = self.conversation[section];
+        NSUInteger row = [conversation indexOfObject:message];
+        if (row != NSNotFound) {
+            return [NSIndexPath indexPathForRow:row
+                                      inSection:section];
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Private methods
 - (NSMutableArray *)grouppedMessages
 {
