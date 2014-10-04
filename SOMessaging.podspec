@@ -14,4 +14,5 @@ Pod::Spec.new do |s|
   s.author       = { "Artur Mkrtchyan" => "mkrtarturdev@gmail.com" }
   s.source_files = 'SOMessaging/*'
   s.requires_arc = true
+  s.dependency 'DAProgressOverlayView', :git => 'https://github.com/daria-kopaliani/DAProgressOverlayView.git', :branch => 'master'
 end
