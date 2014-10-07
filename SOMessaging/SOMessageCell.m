@@ -372,7 +372,12 @@ static BOOL cellIsDragging;
 {
     CGFloat userImageViewLeftMargin = 3;
     
-    [self.mediaImageView sd_setImageWithURL:self.message.thumbnail];
+    if (self.message.thumbnail) {
+        [self.mediaImageView sd_setImageWithURL:self.message.thumbnail];
+    }
+    else {
+        self.mediaImageView.image = [[UIImage alloc] initWithData:self.message.media];
+    }
 
     CGRect frame = CGRectZero;
     frame.size = self.mediaImageViewSize;
