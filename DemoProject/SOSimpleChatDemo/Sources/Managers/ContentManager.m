@@ -44,7 +44,7 @@
             message.media = UIImageJPEGRepresentation([UIImage imageNamed:msg[@"image"]], 1);
         } else if (message.type == SOMessageTypeVideo) {
             message.media = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:msg[@"video"] ofType:@"mp4"]];
-            message.thumbnail = [UIImage imageNamed:msg[@"thumbnail"]];
+//            message.thumbnail = [UIImage imageNamed:msg[@"thumbnail"]];
         }
 
         [result addObject:message];

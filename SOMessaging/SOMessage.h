@@ -45,7 +45,7 @@
 /**
  * Default thumbnail for media.
  */
-@property (strong, nonatomic) UIImage *thumbnail;
+@property (strong, nonatomic) NSURL *thumbnail;
 
 /**
  * Message sent date

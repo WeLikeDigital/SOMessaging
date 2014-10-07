@@ -25,6 +25,7 @@
 #import "SOMessageCell.h"
 #import "NSString+Calculation.h"
 #import "DAProgressOverlayView.h"
+#import "UIImageView+WebCache.h"
 
 @interface SOMessageCell() < UIGestureRecognizerDelegate>
 {
@@ -371,11 +372,7 @@ static BOOL cellIsDragging;
 {
     CGFloat userImageViewLeftMargin = 3;
     
-    UIImage *image = self.message.thumbnail;
-    if (!image) {
-        image = [[UIImage alloc] initWithData:self.message.media];
-    }
-    self.mediaImageView.image = image;
+    [self.mediaImageView sd_setImageWithURL:self.message.thumbnail];
 
     CGRect frame = CGRectZero;
     frame.size = self.mediaImageViewSize;
