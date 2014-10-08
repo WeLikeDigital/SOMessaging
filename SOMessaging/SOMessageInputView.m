@@ -235,12 +235,12 @@
 - (void)sendTapped:(id)sender
 {
     NSString *msg = self.textView.text;
-    self.textView.text = @"";
-    [self adjustTextViewSize];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputView:didSendMessage:)]) {
-        [self.delegate messageInputView:self didSendMessage:msg];
+        [self.delegate messageInputView:self
+                         didSendMessage:msg];
     }
+    [self adjustTextViewSize];
 }
 
 - (void)mediaTapped:(id)sender
