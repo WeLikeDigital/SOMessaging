@@ -234,7 +234,6 @@
 - (void)sendTapped:(id)sender
 {
     NSString *msg = self.textView.text;
-    //    self.textView.text = @"";
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(messageInputView:didSendMessage:)]) {
         [self.delegate messageInputView:self didSendMessage:msg];
@@ -276,7 +275,7 @@
         frm.origin.y = self.superview.bounds.size.height - frm.size.height - keyboardFrame.size.height;
     }
     
-    NSLog(@"h = %f, y = %f, delta = %f", frm.size.height, frm.origin.y, delta);
+//    NSLog(@"h = %f, y = %f, delta = %f", frm.size.height, frm.origin.y, delta);
     
     [UIView animateWithDuration:0.3 animations:^{
         self.frame = frm;
