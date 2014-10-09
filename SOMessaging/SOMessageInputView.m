@@ -275,20 +275,31 @@
         frm.origin.y = self.superview.bounds.size.height - frm.size.height - keyboardFrame.size.height;
     }
     
-//    NSLog(@"h = %f, y = %f, delta = %f", frm.size.height, frm.origin.y, delta);
-    
     [UIView animateWithDuration:0.3 animations:^{
         self.frame = frm;
-        
-    } completion:^(BOOL finished) {
-        [self scrollToCaretInTextView:self.textView animated:NO];
-    }];
+    } completion:nil];
+    [self correctTextViewPosition];
     
     if (frm.size.height >= self.textMaxHeight) {
         [self scrollToCaretInTextView:self.textView animated:NO];
     }
     
     [self adjustTableViewWithCurve:NO scrollsToBottom:NO];
+}
+
+-(void) correctTextViewPosition
+{
+    CGFloat topPadding = 6.0f;
+    CGFloat bottomPadding = 5.0f;
+    CGFloat leftPadding = 6.0f;
+    CGFloat rightPadding = 6.0f;
+    
+    CGRect txtFrame = self.textView.frame;
+    txtFrame.origin.x = self.textBgImageView.frame.origin.x + leftPadding;
+    txtFrame.origin.y = self.textBgImageView.frame.origin.y + topPadding;
+    txtFrame.size.width = self.textBgImageView.frame.size.width - leftPadding - rightPadding;
+    txtFrame.size.height = self.textBgImageView.frame.size.height - topPadding - bottomPadding;
+    self.textView.frame = txtFrame;
 }
 
 - (void)scrollToCaretInTextView:(UITextView *)textView animated:(BOOL)animated
