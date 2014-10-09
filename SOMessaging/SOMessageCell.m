@@ -372,12 +372,14 @@ static BOOL cellIsDragging;
 {
     CGFloat userImageViewLeftMargin = 3;
     
+    UIImage *placeholder = self.message.media ? [[UIImage alloc] initWithData:self.message.media] : [UIImage imageNamed:@"messageplaceholder"];
+    
     if (self.message.thumbnail) {
         [self.mediaImageView sd_setImageWithURL:self.message.thumbnail
-                               placeholderImage:[UIImage imageNamed:@"messageplaceholder"]];
+                               placeholderImage:placeholder];
     }
     else {
-        self.mediaImageView.image = [[UIImage alloc] initWithData:self.message.media];
+        self.mediaImageView.image = placeholder;
     }
     
     CGRect frame = CGRectZero;
