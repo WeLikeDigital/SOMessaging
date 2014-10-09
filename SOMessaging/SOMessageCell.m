@@ -101,13 +101,13 @@ static BOOL cellIsDragging;
     self.mediaImageView = [[UIImageView alloc] init];
     self.mediaOverlayView = [[UIView alloc] init];
     self.balloonImageView = [[UIImageView alloc] init];
-
+    
     if (!CGSizeEqualToSize(self.userImageViewSize, CGSizeZero)) {
         CGRect frame = self.userImageView.frame;
         frame.size = self.userImageViewSize;
         self.userImageView.frame = frame;
     }
-
+    
     self.userImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.userImageView.clipsToBounds = YES;
     self.userImageView.backgroundColor = [UIColor clearColor];
@@ -123,7 +123,7 @@ static BOOL cellIsDragging;
     self.mediaImageView.clipsToBounds = YES;
     self.mediaImageView.backgroundColor = [UIColor clearColor];
     self.mediaImageView.userInteractionEnabled = YES;
-//    self.mediaImageView.layer.cornerRadius = 10;
+    //    self.mediaImageView.layer.cornerRadius = 10;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMediaTapped:)];
     [self.mediaImageView addGestureRecognizer:tap];
     
@@ -200,9 +200,9 @@ static BOOL cellIsDragging;
 - (void)setMessage:(id<SOMessage>)message
 {
     _message = message;
-
+    
     [self setInitialSizes];
-//    [self adjustCell];
+    //    [self adjustCell];
 }
 
 - (void)adjustCell
@@ -226,16 +226,16 @@ static BOOL cellIsDragging;
     
     self.containerView.autoresizingMask = self.message.fromMe ? UIViewAutoresizingFlexibleLeftMargin : UIViewAutoresizingFlexibleRightMargin;
     initialTimeLabelPosX = self.timeLabel.frame.origin.x;
-/* 
---  Not implemented ---
-    else if (self.message.type & (SOMessageTypePhoto | SOMessageTypeText)) {
-        self.textView.hidden = NO;
-        self.mediaImageView.hidden = NO;
-    } else if (self.message.type & (SOMessageTypeVideo | SOMessageTypeText)) {
-        self.textView.hidden = NO;
-        self.mediaImageView.hidden = NO;
-    }
-*/
+    /*
+     --  Not implemented ---
+     else if (self.message.type & (SOMessageTypePhoto | SOMessageTypeText)) {
+     self.textView.hidden = NO;
+     self.mediaImageView.hidden = NO;
+     } else if (self.message.type & (SOMessageTypeVideo | SOMessageTypeText)) {
+     self.textView.hidden = NO;
+     self.mediaImageView.hidden = NO;
+     }
+     */
     
 }
 
@@ -265,7 +265,7 @@ static BOOL cellIsDragging;
     frame.size.width  = usedFrame.size.width;
     frame.size.height = usedFrame.size.height;
     frame.origin.y = messageTopMargin;
-
+    
     CGRect balloonFrame = self.balloonImageView.frame;
     balloonFrame.size.width = frame.size.width + messageLeftMargin + messageRightMargin;
     balloonFrame.size.height = frame.size.height + messageTopMargin + messageBottomMargin;
@@ -296,14 +296,14 @@ static BOOL cellIsDragging;
     self.textView.scrollEnabled = NO;
     self.textView.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
     
-
+    
     
     if (self.userImageView.autoresizingMask & UIViewAutoresizingFlexibleTopMargin) {
         userRect.origin.y = balloonFrame.origin.y + balloonFrame.size.height - userRect.size.height;
     } else {
         userRect.origin.y = 0;
     }
-
+    
     if (self.message.fromMe) {
         userRect.origin.x = balloonFrame.origin.x + userImageViewLeftMargin + balloonFrame.size.width;
     } else {
@@ -324,8 +324,8 @@ static BOOL cellIsDragging;
             frm.origin.x -= userImageViewLeftMargin + userRect.size.width;
         }
     }
-
-
+    
+    
     if (frm.size.height < self.userImageViewSize.height) {
         CGFloat delta = self.userImageViewSize.height - frm.size.height;
         frm.size.height = self.userImageViewSize.height;
@@ -343,7 +343,7 @@ static BOOL cellIsDragging;
     [formatter setDateFormat:@"HH:mm"];
     self.timeLabel.frame = CGRectZero;
     self.timeLabel.text = [formatter stringFromDate:self.message.date];
-
+    
     [self.timeLabel sizeToFit];
     CGRect timeLabel = self.timeLabel.frame;
     timeLabel.origin.x = self.contentView.frame.size.width + 5;
@@ -373,15 +373,16 @@ static BOOL cellIsDragging;
     CGFloat userImageViewLeftMargin = 3;
     
     if (self.message.thumbnail) {
-        [self.mediaImageView sd_setImageWithURL:self.message.thumbnail];
+        [self.mediaImageView sd_setImageWithURL:self.message.thumbnail
+                               placeholderImage:[UIImage imageNamed:@"messageplaceholder"]];
     }
     else {
         self.mediaImageView.image = [[UIImage alloc] initWithData:self.message.media];
     }
-
+    
     CGRect frame = CGRectZero;
     frame.size = self.mediaImageViewSize;
-
+    
     if (!self.message.fromMe && self.userImage) {
         frame.origin.x += userImageViewLeftMargin + self.userImageViewSize.width;
     }
@@ -401,18 +402,25 @@ static BOOL cellIsDragging;
         if (self.message.progress < 1) {
             self.progressView.progress = self.message.progress;
         }
-        else {
+        else if (self.message.isUploading) {
             [self.progressView displayOperationDidFinishAnimation];
             double delayInSeconds = self.progressView.stateChangeAnimationDuration;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
                 self.message.isUploading = NO;
-                self.message.progress = 0;
                 [self.progressView removeFromSuperview];
+                self.mediaImageView.alpha = 0.8;
             });
         }
     }
-
+    else if (self.message.progress == 0) {
+        self.mediaImageView.alpha = 1;
+        self.message.progress = 0;
+    }
+    else {
+        self.mediaImageView.alpha = 0.8;
+    }
+    
     self.balloonImageView.frame = frame;
     self.balloonImageView.backgroundColor = [UIColor clearColor];
     self.balloonImageView.image = self.balloonImage;
@@ -444,7 +452,7 @@ static BOOL cellIsDragging;
             frm.origin.x -= userImageViewLeftMargin + userRect.size.width;
         }
     }
-
+    
     frm.size.height = frame.size.height;
     if (frm.size.height < self.userImageViewSize.height) {
         CGFloat delta = self.userImageViewSize.height - frm.size.height;
@@ -457,7 +465,7 @@ static BOOL cellIsDragging;
         }
     }
     self.containerView.frame = frm;
-
+    
     //Masking mediaImageView with balloon image
     CALayer *layer = self.balloonImageView.layer;
     layer.frame    = (CGRect){{0,0},self.balloonImageView.layer.frame.size};
@@ -510,7 +518,7 @@ static BOOL cellIsDragging;
 #pragma mark - GestureRecognizer delegates
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-
+    
     CGPoint velocity = [self.panGesture velocityInView:self.panGesture.view];
     if (self.panGesture.state == UIGestureRecognizerStateBegan) {
         isHorizontalPan = fabs(velocity.x) > fabs(velocity.y);
@@ -519,7 +527,7 @@ static BOOL cellIsDragging;
     return !isHorizontalPan;
 }
 
-#pragma mark - 
+#pragma mark -
 - (void)handlePan:(UIPanGestureRecognizer *)pan
 {
     CGPoint velocity = [pan velocityInView:pan.view];
