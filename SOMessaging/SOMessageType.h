@@ -26,6 +26,7 @@
 #define SOSimpleChatDemo_SOMessageType_h
 
 typedef NS_OPTIONS(NSInteger, SOMessageType) {
+    SOMessageTypeInvalid,
     SOMessageTypeText,
     SOMessageTypePhoto,
     SOMessageTypeVideo,
