@@ -9,7 +9,7 @@
 #import "Message.h"
 
 @implementation Message
-@synthesize attributes,text,date,fromMe,media,thumbnail,type;
+@synthesize attributes, body,date,fromMe,media, preview,type;
 
 - (id)init
 {

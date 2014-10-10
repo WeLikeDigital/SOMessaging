@@ -357,12 +357,15 @@ static BOOL cellIsDragging;
     CGRect usedFrame = CGRectZero;
     
     if (self.message.attributes) {
-        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.message.text attributes:self.message.attributes];
+        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.message.body
+                                                                             attributes:self.message.attributes];
         self.textView.attributedText = attributedText;
-        usedFrame.size = [self.message.text usedSizeForMaxWidth:width withAttributes:self.message.attributes];
+        usedFrame.size = [self.message.body usedSizeForMaxWidth:width
+                                                 withAttributes:self.message.attributes];
     } else {
-        self.textView.text = self.message.text;
-        usedFrame.size = [self.message.text usedSizeForMaxWidth:width withFont:self.messageFont];
+        self.textView.text = self.message.body;
+        usedFrame.size = [self.message.body usedSizeForMaxWidth:width
+                                                       withFont:self.messageFont];
     }
     
     return usedFrame;
@@ -374,8 +377,8 @@ static BOOL cellIsDragging;
     
     UIImage *placeholder = self.message.media ? [[UIImage alloc] initWithData:self.message.media] : [UIImage imageNamed:@"messageplaceholder"];
     
-    if (self.message.thumbnail) {
-        [self.mediaImageView sd_setImageWithURL:self.message.thumbnail
+    if (self.message.preview) {
+        [self.mediaImageView sd_setImageWithURL:[NSURL URLWithString:self.message.preview]
                                placeholderImage:placeholder];
     }
     else {

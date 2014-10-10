@@ -28,12 +28,12 @@
 @protocol SOMessage
 
 /**
- * Message text
+ * Message body
  */
-@property (strong, nonatomic) NSString *text;
+@property (strong, nonatomic) NSString *body;
 
 /**
- * Attributes for attributed message text
+ * Attributes for attributed message body
  */
 @property (strong, nonatomic) NSDictionary *attributes;
 
@@ -45,7 +45,7 @@
 /**
  * Default thumbnail for media.
  */
-@property (strong, nonatomic) NSURL *thumbnail;
+@property (strong, nonatomic) NSString *preview;
 
 /**
  * Message sent date
@@ -62,7 +62,6 @@
 /**
  * Type of message.
  * Available values:
- * SOMessageTypeText, SOMessageTypePhoto, SOMessageTypeVideo
  */
 @property (nonatomic) SOMessageType type;
 

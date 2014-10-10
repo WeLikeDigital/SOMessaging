@@ -241,9 +241,11 @@
     id<SOMessage> message = [self messages][index];
     
     if (message.type == SOMessageTypeText) {
-        CGSize size = [message.text usedSizeForMaxWidth:[self messageMaxWidth] withFont:[self messageFont]];
+        CGSize size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
+                                               withFont:[self messageFont]];
         if (message.attributes) {
-            size = [message.text usedSizeForMaxWidth:[self messageMaxWidth] withAttributes:message.attributes];
+            size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
+                                      withAttributes:message.attributes];
         }
         
         if (self.balloonMinWidth) {
@@ -251,9 +253,11 @@
             if (size.width <  messageMinWidth) {
                 size.width = messageMinWidth;
 
-                CGSize newSize = [message.text usedSizeForMaxWidth:messageMinWidth withFont:[self messageFont]];
+                CGSize newSize = [message.body usedSizeForMaxWidth:messageMinWidth
+                                                          withFont:[self messageFont]];
                 if (message.attributes) {
-                    newSize = [message.text usedSizeForMaxWidth:messageMinWidth withAttributes:message.attributes];
+                    newSize = [message.body usedSizeForMaxWidth:messageMinWidth
+                                                 withAttributes:message.attributes];
                 }
                 
                 size.height = newSize.height;

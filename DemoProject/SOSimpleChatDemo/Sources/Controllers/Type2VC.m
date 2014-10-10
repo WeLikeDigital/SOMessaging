@@ -100,7 +100,7 @@
     }
     
     Message *msg = [[Message alloc] init];
-    msg.text = message;
+    msg.body = message;
     msg.fromMe = YES;
 
     [self sendMessage:msg];

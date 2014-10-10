@@ -30,7 +30,7 @@
     for (NSDictionary *msg in data) {
         Message *message = [[Message alloc] init];
         message.fromMe = [msg[@"fromMe"] boolValue];
-        message.text = msg[@"message"];
+        message.body = msg[@"message"];
         message.type = [self messageTypeFromString:msg[@"type"]];
         message.date = [NSDate date];
         
