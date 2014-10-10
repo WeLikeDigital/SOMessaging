@@ -25,11 +25,11 @@
 #ifndef SOSimpleChatDemo_SOMessageType_h
 #define SOSimpleChatDemo_SOMessageType_h
 
-typedef enum {
-  SOMessageTypeText  = 0,
-  SOMessageTypePhoto = 1 << 0,
-  SOMessageTypeVideo = 1 << 1,
-  SOMessageTypeOther = 1 << 2,
-} SOMessageType;
+typedef NS_OPTIONS(NSInteger, SOMessageType) {
+    SOMessageTypeText,
+    SOMessageTypePhoto,
+    SOMessageTypeVideo,
+    SOMessageTypeOther
+};
 
 #endif
