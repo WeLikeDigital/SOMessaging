@@ -110,7 +110,7 @@
             NSInteger section = self.conversation.count - 1;
             NSInteger row = [self.conversation[section] count] - 1;
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-             if ( indexPath.row !=-1) {
+             if (indexPath.row !=-1) {
                 [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
              }
         }
@@ -315,7 +315,6 @@
 
 - (void)configureMessageCell:(SOMessageCell *)cell forMessageAtIndex:(NSInteger)index
 {
-
 }
 
 - (CGFloat)messageMaxWidth
