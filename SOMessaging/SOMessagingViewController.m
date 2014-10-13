@@ -218,7 +218,7 @@
     cell.delegate = self;
     cell.messageFont = [self messageFont];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.balloonImage = message.fromMe ? self.balloonSendImage : self.balloonReceiveImage;
+    cell.balloonImage = message.fromMe ? self.balloonImageForSending : self.balloonReceiveImage;
     cell.textView.textColor = message.fromMe ? [UIColor whiteColor] : [UIColor blackColor];
     cell.message = message;    
     
@@ -299,17 +299,25 @@
 
 - (UIImage *)balloonImageForReceiving
 {
-    UIImage *bubble = [UIImage imageNamed:@"bubbleReceive.png"];
-    UIColor *color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-    bubble = [self tintImage:bubble withColor:color];
+    UIImage *bubble = [UIImage imageNamed:@"received"];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
+}
+
+- (UIImage *)balloonImageForNotSending
+{
+    UIImage *bubble = [UIImage imageNamed:@"sending"];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
+}
+
+- (UIImage *)balloonImageForError
+{
+    UIImage *bubble = [UIImage imageNamed:@"not_sent"];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForSending
 {
-    UIImage *bubble = [UIImage imageNamed:@"bubble.png"];
-    UIColor *color = [UIColor colorWithRed:195.0/255.0 green:220.0/255.0 blue:238.0/255.0 alpha:1.0];
-    bubble = [self tintImage:bubble withColor:color];
+    UIImage *bubble = [UIImage imageNamed:@"sent"];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
 }
 
@@ -496,7 +504,7 @@
     CGContextSetBlendMode(context, kCGBlendModeNormal);
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
     CGContextClipToMask(context, rect, image.CGImage);
-    [color setFill];
+//    [color setFill];
     CGContextFillRect(context, rect);
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

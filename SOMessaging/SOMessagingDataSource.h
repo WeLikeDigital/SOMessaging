@@ -23,8 +23,10 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 #import <Foundation/Foundation.h>
+#import "SOMessage.h"
 
 @class SOMessageCell;
+
 @protocol SOMessagingDataSource <NSObject>
 
 @required
@@ -63,6 +65,10 @@
  */
 - (UIImage *)balloonImageForReceiving;
 
+- (UIImage *)balloonImageForError;
+
+- (UIImage *)balloonImageForNotSending;
+
 /**
  * Maximum width of message
  */
@@ -92,7 +98,5 @@
  * Size user's imageview
  */
 - (CGSize)userImageSize;
-
-
 
  @end
