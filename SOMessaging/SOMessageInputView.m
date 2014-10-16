@@ -116,8 +116,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNote:) name:UIKeyboardWillHideNotification object:nil];
     
     self.textView.placeholderText = NSLocalizedString(@"Type message...", nil);
-    [self.sendButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
-    self.sendButton.frame = CGRectMake(0, 0, 70, self.textInitialHeight - self.textTopMargin - self.textBottomMargin);
+    [self.sendButton setBackgroundImage:[UIImage imageNamed:@"sendButton"]
+                               forState:UIControlStateNormal];
+    CGFloat size = self.textInitialHeight - self.textTopMargin - self.textBottomMargin;
+    self.sendButton.frame = CGRectMake(0, 0, size, size);//CGRectMake(0, 0, 70, self.textInitialHeight - self.textTopMargin - self.textBottomMargin);
     
     [self.mediaButton setImage:[UIImage imageNamed:@"attachment.png"] forState:UIControlStateNormal];
     self.mediaButton.frame = CGRectMake(0, 0, 50, 24);
