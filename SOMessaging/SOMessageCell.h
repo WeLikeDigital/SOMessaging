@@ -51,6 +51,7 @@
 @property (strong, nonatomic) UIImageView *userImageView;
 @property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UILabel *timeLabel; //appears while dragging cell
+@property (strong, nonatomic) UIImageView *backgroundImageView;
 @property (strong, nonatomic) UIImageView *mediaImageView;
 @property (strong, nonatomic) UIView *mediaOverlayView; // For video only
 @property (strong, nonatomic) DAProgressOverlayView *progressView;

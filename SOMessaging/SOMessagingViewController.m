@@ -189,6 +189,17 @@
     label.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
     label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     
+    UIImage *backgroundImage = [UIImage imageNamed:@"messagesDateBackground"];
+    if (backgroundImage) {
+        label.textColor = [UIColor whiteColor];
+        UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(10, 20, 10, 20)]];
+        CGFloat width = label.frame.size.width + 20;
+        
+        backgroundView.frame = CGRectMake(0, 0, width, 20);
+        backgroundView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+        [view addSubview:backgroundView];
+    }
+
     [view addSubview:label];
     
     return view;

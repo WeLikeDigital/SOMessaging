@@ -71,10 +71,7 @@ static BOOL cellIsDragging;
     
     if (self) {
         self.messageMaxWidth = messageMaxWidth;
-        self.backgroundColor = [UIColor colorWithRed:232.0/255.0
-                                               green:236.0/255.0
-                                                blue:238.0/255.0
-                                               alpha:1.0];
+        self.backgroundColor = [UIColor clearColor];
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
         self.panGesture.delegate = self;
         [self addGestureRecognizer:self.panGesture];
@@ -126,7 +123,6 @@ static BOOL cellIsDragging;
     self.mediaImageView.clipsToBounds = YES;
     self.mediaImageView.backgroundColor = [UIColor clearColor];
     self.mediaImageView.userInteractionEnabled = YES;
-    //    self.mediaImageView.layer.cornerRadius = 10;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMediaTapped:)];
     [self.mediaImageView addGestureRecognizer:tap];
     
@@ -150,14 +146,24 @@ static BOOL cellIsDragging;
     [self.containerView addSubview:self.mediaImageView];
     [self.containerView addSubview:self.userImageView];
     
-    [self.contentView addSubview:self.timeLabel];
-    
     self.contentView.clipsToBounds = NO;
     self.clipsToBounds = NO;
     
-    self.timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.timeLabel.font = [UIFont fontWithName:@"AvenirNextCyr-Light" size:11];
     self.timeLabel.textColor = [UIColor grayColor];
     self.timeLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    
+    UIImage *backgroundImage = [UIImage imageNamed:@"messagesDateBackground"];
+    if (backgroundImage) {
+        self.timeLabel.textColor = [UIColor whiteColor];
+        if (self.backgroundImageView) {
+            [self.backgroundImageView removeFromSuperview];
+        }
+        self.backgroundImageView = [[UIImageView alloc] initWithImage:[backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)]];
+        [self.contentView addSubview:self.backgroundImageView];
+    }
+    
+    [self.contentView addSubview:self.timeLabel];
 }
 
 - (void)hideSubViews
@@ -353,6 +359,12 @@ static BOOL cellIsDragging;
     self.timeLabel.frame = timeLabel;
     self.timeLabel.center = CGPointMake(self.timeLabel.center.x, self.containerView.center.y);
     
+    if (self.backgroundImageView) {
+        timeLabel.size.width += 10;
+        timeLabel.size.height += 5;
+        self.backgroundImageView.frame = timeLabel;
+        self.backgroundImageView.center = self.timeLabel.center;
+    }
 }
 
 - (CGRect)usedRectForWidth:(CGFloat)width
@@ -492,6 +504,13 @@ static BOOL cellIsDragging;
     timeLabel.origin.x = self.contentView.frame.size.width + 5;
     self.timeLabel.frame = timeLabel;
     self.timeLabel.center = CGPointMake(self.timeLabel.center.x, self.containerView.center.y);
+    
+    if (self.backgroundImageView) {
+        timeLabel.size.width += 10;
+        timeLabel.size.height += 5;
+        self.backgroundImageView.frame = timeLabel;
+        self.backgroundImageView.center = self.timeLabel.center;
+    }
 }
 
 - (void)adjustForVideoOnly
