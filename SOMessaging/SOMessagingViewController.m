@@ -342,7 +342,7 @@
 
 - (UIFont *)messageFont
 {
-    return [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    return [UIFont fontWithName:@"AvenirNextCyr-Light" size:14];
 }
 
 - (CGSize)mediaThumbnailSize

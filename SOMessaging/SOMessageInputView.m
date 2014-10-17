@@ -81,6 +81,7 @@
     
     self.textView = [[SOPlaceholderedTextView alloc] init];
     self.textView.textColor = [UIColor blackColor];
+    self.textView.font = [UIFont fontWithName:@"AvenirNextCyr-Light" size:14];
     self.textView.delegate = self;
     self.textView.backgroundColor = [UIColor clearColor];
     [self.textView setTextContainerInset:UIEdgeInsetsZero];
