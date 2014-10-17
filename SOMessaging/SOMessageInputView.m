@@ -26,6 +26,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UINavigationController+Rotation.h"
 
+static const CGFloat kSendButtonMargins = 10;
+static const CGFloat kButtonSize = 30;
+
 @interface SOMessageInputView() <UITextViewDelegate, UIGestureRecognizerDelegate>
 {
     CGRect keyboardFrame;
@@ -119,11 +122,10 @@
     self.textView.placeholderText = NSLocalizedString(@"Type message...", nil);
     [self.sendButton setBackgroundImage:[UIImage imageNamed:@"sendButton"]
                                forState:UIControlStateNormal];
-    CGFloat size = self.textInitialHeight - self.textTopMargin - self.textBottomMargin;
-    self.sendButton.frame = CGRectMake(0, 0, size, size);//CGRectMake(0, 0, 70, self.textInitialHeight - self.textTopMargin - self.textBottomMargin);
+    self.sendButton.frame = CGRectMake(0, 0, kButtonSize, kButtonSize);
     
-    [self.mediaButton setImage:[UIImage imageNamed:@"attachment.png"] forState:UIControlStateNormal];
-    self.mediaButton.frame = CGRectMake(0, 0, 50, 24);
+    [self.mediaButton setImage:[UIImage imageNamed:@"attachment"] forState:UIControlStateNormal];
+    self.mediaButton.frame = CGRectMake(self.textleftMargin, 0, kButtonSize, kButtonSize);
     
     [self adjustInputView];
 }
@@ -137,21 +139,22 @@
     
     if (!self.mediaButton.hidden) {
         CGRect mediaFrame = self.mediaButton.frame;
-        mediaFrame.origin = CGPointMake(0, 0);
+        mediaFrame.origin = CGPointMake(self.textleftMargin, 0);
         self.mediaButton.frame = mediaFrame;
         self.mediaButton.center = CGPointMake(self.mediaButton.center.x, self.textInitialHeight/2);
-    } else {
+    }
+    else {
         self.mediaButton.frame = CGRectZero;
     }
     
     CGRect sendFrame = self.sendButton.frame;
-    sendFrame.origin = CGPointMake(self.frame.size.width - sendFrame.size.width, 0);
+    sendFrame.origin = CGPointMake(self.frame.size.width - sendFrame.size.width - kSendButtonMargins/2, 0);
     self.sendButton.frame = sendFrame;
     self.sendButton.center = CGPointMake(self.sendButton.center.x, self.textInitialHeight/2);
     
     CGRect txtBgFrame = self.textBgImageView.frame;
     txtBgFrame.origin = CGPointMake(self.mediaButton.frame.origin.x + self.mediaButton.frame.size.width + self.textleftMargin, self.textTopMargin);
-    txtBgFrame.size = CGSizeMake(self.frame.size.width - self.mediaButton.frame.size.width - self.textleftMargin - self.sendButton.frame.size.width - self.textRightMargin, self.textInitialHeight - self.textTopMargin - self.textBottomMargin);
+    txtBgFrame.size = CGSizeMake(self.frame.size.width - self.mediaButton.frame.size.width - self.textleftMargin - self.sendButton.frame.size.width - self.textRightMargin - 1.5*kSendButtonMargins, self.textInitialHeight - self.textTopMargin - self.textBottomMargin);
     
     self.textBgImageView.frame = txtBgFrame;
     
