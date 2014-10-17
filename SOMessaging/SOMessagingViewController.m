@@ -352,7 +352,7 @@
 
 - (CGSize)mediaThumbnailSize
 {
-    return CGSizeMake(90, 100);
+    return CGSizeMake(150, 150);
 }
 
 - (CGSize)userImageSize
