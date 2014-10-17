@@ -300,25 +300,25 @@
 - (UIImage *)balloonImageForReceiving
 {
     UIImage *bubble = [UIImage imageNamed:@"received"];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 27, 21, 17)];
 }
 
 - (UIImage *)balloonImageForNotSending
 {
     UIImage *bubble = [UIImage imageNamed:@"sending"];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForError
 {
     UIImage *bubble = [UIImage imageNamed:@"not_sent"];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForSending
 {
     UIImage *bubble = [UIImage imageNamed:@"sent"];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (void)configureMessageCell:(SOMessageCell *)cell forMessageAtIndex:(NSInteger)index
