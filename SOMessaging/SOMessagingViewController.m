@@ -179,13 +179,11 @@
     id<SOMessage> firstMessageInGroup = [self.conversation[section] firstObject];
     NSDate *date = [firstMessageInGroup date];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd MMM, eee, HH:mm"];
     UILabel *label = [[UILabel alloc] init];
-    label.text = [formatter stringFromDate:date];
+    label.text = [self conversationFormattedDate:date];
     
     label.textColor = [UIColor grayColor];
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    label.font = [UIFont fontWithName:@"AvenirNextCyr-Light" size:11];
     [label sizeToFit];
     
     label.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
@@ -194,6 +192,13 @@
     [view addSubview:label];
     
     return view;
+}
+
+- (NSString *) conversationFormattedDate:(NSDate *)date
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd MMM, eee, HH:mm"];
+    return [formatter stringFromDate:date];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

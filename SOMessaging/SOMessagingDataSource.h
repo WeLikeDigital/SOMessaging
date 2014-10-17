@@ -99,4 +99,6 @@
  */
 - (CGSize)userImageSize;
 
+- (NSString *) conversationFormattedDate:(NSDate *)date;
+
  @end
