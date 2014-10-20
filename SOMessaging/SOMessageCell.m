@@ -304,8 +304,7 @@ static BOOL cellIsDragging;
     self.textView.editable = NO;
     self.textView.scrollEnabled = NO;
     self.textView.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
-    
-    
+    self.textView.tintColor = [UIColor blueColor];
     
     if (self.userImageView.autoresizingMask & UIViewAutoresizingFlexibleTopMargin) {
         userRect.origin.y = balloonFrame.origin.y + balloonFrame.size.height - userRect.size.height;
