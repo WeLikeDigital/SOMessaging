@@ -584,6 +584,9 @@ static BOOL cellIsDragging;
                         CGRect timeframe = cell.timeLabel.frame;
                         timeframe.origin.x = initialTimeLabelPosX;
                         cell.timeLabel.frame = timeframe;
+                        if (cell.backgroundImageView) {
+                            cell.backgroundImageView.center = cell.timeLabel.center;
+                        }
                     }
                 }
             }];
@@ -608,6 +611,9 @@ static BOOL cellIsDragging;
                     CGRect frame = cell.timeLabel.frame;
                     frame.origin.x = initialTimeLabelPosX - fabs(contentOffsetX);
                     cell.timeLabel.frame = frame;
+                    if (cell.backgroundImageView) {
+                        cell.backgroundImageView.center = cell.timeLabel.center;
+                    }
                 }
             }
         }
