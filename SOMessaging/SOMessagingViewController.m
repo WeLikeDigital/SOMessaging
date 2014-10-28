@@ -316,7 +316,7 @@
 - (UIImage *)balloonImageForReceiving
 {
     UIImage *bubble = [UIImage imageNamed:@"received"];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 27, 21, 17)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
 }
 
 - (UIImage *)balloonImageForNotSending
