@@ -160,6 +160,7 @@ static BOOL cellIsDragging;
             [self.backgroundImageView removeFromSuperview];
         }
         self.backgroundImageView = [[UIImageView alloc] initWithImage:[backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)]];
+        self.backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         [self.contentView addSubview:self.backgroundImageView];
     }
     
