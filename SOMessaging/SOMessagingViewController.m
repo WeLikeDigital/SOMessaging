@@ -363,7 +363,8 @@
 
 - (CGSize)mediaThumbnailSize
 {
-    return CGSizeMake(150, 150);
+    CGFloat size = [UIScreen mainScreen].bounds.size.width/2;
+    return CGSizeMake(size, size-12);
 }
 
 - (CGSize)userImageSize
