@@ -30,8 +30,13 @@
 #import "SOMessage.h"
 #import "SOMessageCell.h"
 
+@protocol LongPressOnCell <NSObject>
 
-@interface SOMessagingViewController : UIViewController <SOMessagingDataSource, SOMessagingDelegate, UITableViewDataSource>
+- (void)handleLongPress:(UILongPressGestureRecognizer *)longPress;
+
+@end
+
+@interface SOMessagingViewController : UIViewController <SOMessagingDataSource, SOMessagingDelegate, UITableViewDataSource, LongPressOnCell>
 
 #pragma mark - Properties
 @property (strong, nonatomic) UITableView *tableView;

@@ -486,12 +486,15 @@
 }
 
 #pragma mark - SOMessaging delegate
-- (void)messageCell:(SOMessageCell *)cell didTapMedia:(NSData *)media
+- (void)messageCell:(SOMessageCell *)cell
+        didTapMedia:(NSData *)media
 {
-    [self didSelectMedia:media inMessageCell:cell];
+    [self didSelectMedia:media
+           inMessageCell:cell];
 }
 
-- (void)didSelectMedia:(NSData *)media inMessageCell:(SOMessageCell *)cell
+- (void)didSelectMedia:(NSData *)media
+         inMessageCell:(SOMessageCell *)cell
 {
     if (cell.message.type == SOMessageTypePhoto) {
         self.imageBrowser = [[SOImageBrowserView alloc] init];
@@ -520,23 +523,7 @@
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
-    CGPoint p = [longPress locationInView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
-    if (indexPath != nil) {
-        SOMessageCell *cell = (SOMessageCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        CGPoint ps = [longPress locationInView:cell.balloonImageView];
-        if (CGRectContainsPoint(cell.balloonImageView.frame, ps)) {
-            if (cell.message.type == SOMessageTypeText) {
-                cell.balloonImageView.alpha = 0.6;
-            }
-            else {
-                cell.mediaImageView.alpha = 0.6;
-            }
-            if (longPress.state == UIGestureRecognizerStateBegan) {
-                NSLog(@"Long press!");
-            }
-        }
-    }
+
 }
 
 #pragma mark - Helper methods
