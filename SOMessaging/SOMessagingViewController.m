@@ -33,7 +33,7 @@
 
 #define kMessageMaxWidth 240.0f
 
-@interface SOMessagingViewController () <UITableViewDelegate, SOMessageCellDelegate>
+@interface SOMessagingViewController () <UITableViewDelegate, SOMessageCellDelegate, UIGestureRecognizerDelegate>
 {
 
 }
@@ -72,6 +72,12 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     [self.view addSubview:self.tableView];
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                       action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5;
+    lpgr.delegate = self;
+    [self.tableView addGestureRecognizer:lpgr];
+    
     
     self.inputView = [[SOMessageInputView alloc] init];
     self.inputView.tintColor = [UIColor blueColor];
@@ -511,6 +517,28 @@
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
 }
+
+- (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
+{
+    CGPoint p = [longPress locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+    if (indexPath != nil) {
+        SOMessageCell *cell = (SOMessageCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        CGPoint ps = [longPress locationInView:cell.balloonImageView];
+        if (CGRectContainsPoint(cell.balloonImageView.frame, ps)) {
+            if (cell.message.type == SOMessageTypeText) {
+                cell.balloonImageView.alpha = 0.6;
+            }
+            else {
+                cell.mediaImageView.alpha = 0.6;
+            }
+            if (longPress.state == UIGestureRecognizerStateBegan) {
+                NSLog(@"Long press!");
+            }
+        }
+    }
+}
+
 #pragma mark - Helper methods
 - (UIImage *)tintImage:(UIImage *)image withColor:(UIColor *)color
 {
