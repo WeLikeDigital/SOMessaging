@@ -36,6 +36,21 @@
 
 @end
 
+@implementation SOmessageImageView
+
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+-(BOOL)canPerformAction:(SEL)action
+             withSender:(id)sender
+{
+    return YES;
+}
+
+@end
+
 @implementation SOMessageCell
 
 static CGFloat messageTopMargin;
@@ -98,9 +113,11 @@ static BOOL cellIsDragging;
     self.userImageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.messageMaxWidth, 0)];
     self.timeLabel = [[UILabel alloc] init];
-    self.mediaImageView = [[UIImageView alloc] init];
+    self.mediaImageView = [[SOmessageImageView alloc] init];
     self.mediaOverlayView = [[UIView alloc] init];
-    self.balloonImageView = [[UIImageView alloc] init];
+    self.balloonImageView = [[SOmessageImageView alloc] init];
+    
+    self.balloonImageView.userInteractionEnabled = YES;
     
     if (!CGSizeEqualToSize(self.userImageViewSize, CGSizeZero)) {
         CGRect frame = self.userImageView.frame;

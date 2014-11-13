@@ -521,6 +521,17 @@
     }
 }
 
+-(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+-(BOOL)canPerformAction:(SEL)action
+             withSender:(id)sender
+{
+    return YES;
+}
+
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
 
