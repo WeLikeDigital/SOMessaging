@@ -303,6 +303,7 @@ static BOOL cellIsDragging;
     self.balloonImageView.image = self.balloonImage;
     
     self.textView.editable = NO;
+    self.textView.selectable = NO;
     self.textView.scrollEnabled = NO;
     self.textView.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
     self.textView.tintColor = [UIColor blueColor];
