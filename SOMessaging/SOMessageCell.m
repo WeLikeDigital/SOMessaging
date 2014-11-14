@@ -26,6 +26,7 @@
 #import "NSString+Calculation.h"
 #import "DAProgressOverlayView.h"
 #import "UIImageView+WebCache.h"
+#import "SOmessageImageView.h"
 
 @interface SOMessageCell() < UIGestureRecognizerDelegate>
 {
@@ -33,15 +34,6 @@
 }
 @property (nonatomic) CGSize mediaImageViewSize;
 @property (nonatomic) CGSize userImageViewSize;
-
-@end
-
-@implementation SOmessageImageView
-
--(BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
 
 @end
 

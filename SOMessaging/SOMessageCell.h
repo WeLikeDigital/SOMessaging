@@ -32,15 +32,12 @@
 
 @class SOMessageCell;
 @class DAProgressOverlayView;
+@class SOmessageImageView;
 
 @protocol SOMessageCellDelegate <NSObject>
 
 @optional
 - (void)messageCell:(SOMessageCell *)cell didTapMedia:(NSData *)media;
-
-@end
-
-@interface SOmessageImageView : UIImageView
 
 @end
 
