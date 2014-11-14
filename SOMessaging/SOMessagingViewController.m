@@ -529,11 +529,14 @@
 -(BOOL)canPerformAction:(SEL)action
              withSender:(id)sender
 {
-    return YES;
+    return action == @selector(sendAgain:);
 }
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
 {
+}
+
+-(void) sendAgain:(id)sender {
 
 }
 
