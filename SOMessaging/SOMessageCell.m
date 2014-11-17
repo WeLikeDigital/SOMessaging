@@ -464,7 +464,9 @@ static BOOL cellIsDragging;
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
                 self.message.isUploading = NO;
                 [self.progressView removeFromSuperview];
-                self.mediaImageView.alpha = 0.8;
+                if (self.progressView.progress != 0) {
+                    self.mediaImageView.alpha = 0.8;
+                }
             });
         }
     }
