@@ -37,6 +37,7 @@
 @protocol SOMessageCellDelegate <NSObject>
 
 @optional
+@property NSIndexPath *selectedIndexPathForMenu;
 - (void)messageCell:(SOMessageCell *)cell
         didTapMedia:(NSData *)media;
 - (void)didTapSendOnMessageCell:(SOMessageCell *)cell;
