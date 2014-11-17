@@ -37,8 +37,14 @@
 @protocol SOMessageCellDelegate <NSObject>
 
 @optional
-- (void)messageCell:(SOMessageCell *)cell didTapMedia:(NSData *)media;
+- (void)messageCell:(SOMessageCell *)cell
+        didTapMedia:(NSData *)media;
+- (void)didTapSendOnMessageCell:(SOMessageCell *)cell;
+- (void)didTapDeleteOnMessageCell:(SOMessageCell *)cell;
+- (void)didTapCopyOnMessageCell:(SOMessageCell *)cell;
+@end
 
+@interface SOMessageTextView : UITextView
 @end
 
 @interface SOMessageCell : UITableViewCell
@@ -50,7 +56,7 @@
 @property (strong, nonatomic) UIFont *messageFont;
 
 @property (strong, nonatomic) UIImageView *userImageView;
-@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) SOMessageTextView *textView;
 @property (strong, nonatomic) UILabel *timeLabel; //appears while dragging cell
 @property (strong, nonatomic) UIImageView *backgroundImageView;
 @property (strong, nonatomic) SOmessageImageView *mediaImageView;

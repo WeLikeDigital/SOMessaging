@@ -37,6 +37,15 @@
 
 @end
 
+@implementation SOMessageTextView
+
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+@end
+
 @implementation SOMessageCell
 
 static CGFloat messageTopMargin;
@@ -49,6 +58,28 @@ static CGFloat contentOffsetX;
 
 static CGFloat initialTimeLabelPosX;
 static BOOL cellIsDragging;
+
+
+-(BOOL)canPerformAction:(SEL)action
+             withSender:(id)sender
+{
+    return (((action == @selector(send:) || action == @selector(deleteMessage:)) && [self.message status] < 0)) || (action == @selector(copy:));
+}
+
+-(void)send:(id) sender
+{
+    [self.delegate didTapSendOnMessageCell:self];
+}
+
+-(void)deleteMessage:(id)sender
+{
+    [self.delegate didTapDeleteOnMessageCell:self];
+}
+
+-(void)copy:(id)sender
+{
+    [self.delegate didTapCopyOnMessageCell:self];
+}
 
 + (void)load
 {

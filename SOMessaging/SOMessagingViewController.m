@@ -30,12 +30,14 @@
 
 #import "SOImageBrowserView.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "SOmessageImageView.h"
+#import "SOMessage.h"
 
 #define kMessageMaxWidth 240.0f
 
-@interface SOMessagingViewController () <UITableViewDelegate, SOMessageCellDelegate, UIGestureRecognizerDelegate>
+@interface SOMessagingViewController () <UITableViewDelegate>
 {
-
+    
 }
 
 @property (strong, nonatomic) UIImage *balloonSendImage;
@@ -48,6 +50,11 @@
 
 @property (strong, nonatomic) SOImageBrowserView *imageBrowser;
 @property (strong, nonatomic) MPMoviePlayerViewController *moviePlayerController;
+
+@property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
+
+- (void)didReceiveMenuWillShowNotification:(NSNotification *)notification;
+- (void)didReceiveMenuWillHideNotification:(NSNotification *)notification;
 
 @end
 
@@ -72,12 +79,6 @@
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     [self.view addSubview:self.tableView];
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                       action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5;
-    lpgr.delegate = self;
-    [self.tableView addGestureRecognizer:lpgr];
-    
     
     self.inputView = [[SOMessageInputView alloc] init];
     self.inputView.tintColor = [UIColor blueColor];
@@ -91,11 +92,70 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
- 
+    
     [self setup];
+    
+    [self subscribeForMenuNotifications];
     
     self.balloonSendImage    = [self balloonImageForSending];
     self.balloonReceiveImage = [self balloonImageForReceiving];
+}
+
+-(void) subscribeForMenuNotifications
+{
+    if ([self shouldShowMenuOnLongPress]) {
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMenuWillShowNotification:)
+                                                     name:UIMenuControllerWillShowMenuNotification
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMenuWillHideNotification:)
+                                                     name:UIMenuControllerWillHideMenuNotification
+                                                   object:nil];
+    }
+}
+
+- (void)didReceiveMenuWillShowNotification:(NSNotification *)notification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIMenuControllerWillShowMenuNotification
+                                                  object:nil];
+    
+    UIMenuController *menu = [notification object];
+    UIMenuItem *sendItem = [[UIMenuItem alloc] initWithTitle:@"Send" action:@selector(send:)];
+    UIMenuItem *deleteItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteMessage:)];
+    [menu setMenuItems:@[sendItem, deleteItem]];
+    [menu setMenuVisible:NO
+                animated:NO];
+    
+    SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:self.selectedIndexPathForMenu];
+    
+    CGRect selectedCellMessageBubbleFrame = [cell convertRect:cell.balloonImageView.frame
+                                                       toView:self.view];
+    
+    if (cell.message.fromMe) {
+        selectedCellMessageBubbleFrame.origin.x += [UIScreen mainScreen].bounds.size.width - selectedCellMessageBubbleFrame.size.width;
+    }
+    
+    [menu setTargetRect:CGRectMake(selectedCellMessageBubbleFrame.origin.x, selectedCellMessageBubbleFrame.origin.y, 50, 50)//selectedCellMessageBubbleFrame
+                 inView:self.view];
+    
+    [menu setMenuVisible:YES
+                animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveMenuWillShowNotification:)
+                                                 name:UIMenuControllerWillShowMenuNotification
+                                               object:nil];
+}
+
+-(void)didReceiveMenuWillHideNotification:(NSNotification *)notification
+{
+//    SOMessageCell *cell = (SOMessageCell *)[self tableView:self.tableView
+//                                     cellForRowAtIndexPath:self.selectedIndexPathForMenu];
+//    cell.textView.selectable = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -116,9 +176,9 @@
             NSInteger section = self.conversation.count - 1;
             NSInteger row = [self.conversation[section] count] - 1;
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-             if (indexPath.row !=-1) {
+            if (indexPath.row !=-1) {
                 [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-             }
+            }
         }
     });
 }
@@ -156,7 +216,7 @@
     id<SOMessage> message = self.conversation[indexPath.section][indexPath.row];
     int index = (int)[[self messages] indexOfObject:message];
     height = [self heightForMessageForIndex:index];
-
+    
     return height;
 }
 
@@ -205,7 +265,7 @@
         backgroundView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
         [view addSubview:backgroundView];
     }
-
+    
     [view addSubview:label];
     
     return view;
@@ -221,9 +281,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"sendCell";
-
+    
     SOMessageCell *cell;
-
+    
     id<SOMessage> message = self.conversation[indexPath.section][indexPath.row];
     
     cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -242,13 +302,15 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.balloonImage = message.fromMe ? self.balloonImageForSending : self.balloonReceiveImage;
     cell.textView.textColor = message.fromMe ? [UIColor whiteColor] : [UIColor blackColor];
-    cell.message = message;    
+    cell.message = message;
     
     // For user customization
     int index = (int)[[self messages] indexOfObject:message];
     [self configureMessageCell:cell forMessageAtIndex:index];
     
     [cell adjustCell];
+    
+    cell.textView.selectable = ![self shouldShowMenuOnLongPress];
     
     return cell;
 }
@@ -277,7 +339,7 @@
             CGFloat messageMinWidth = self.balloonMinWidth - [SOMessageCell messageLeftMargin] - [SOMessageCell messageRightMargin];
             if (size.width <  messageMinWidth) {
                 size.width = messageMinWidth;
-
+                
                 CGSize newSize = [message.body usedSizeForMaxWidth:messageMinWidth
                                                           withFont:[self messageFont]];
                 if (message.attributes) {
@@ -384,17 +446,17 @@
     message.fromMe = YES;
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
-
+    
     [self refreshMessages];
 }
 
 - (void)receiveMessage:(id<SOMessage>) message
 {
     message.fromMe = NO;
-
+    
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
-
+    
     [self refreshMessages];
 }
 
@@ -405,7 +467,7 @@
     
     NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
     NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
-
+    
     if (row >= 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -454,7 +516,7 @@
     } else {
         int groupIndex = 0;
         NSMutableArray *allMessages = [self messages];
-
+        
         for (int i = 0; i < allMessages.count; i++) {
             if (i == 0) {
                 NSMutableArray *firstGroup = [NSMutableArray new];
@@ -500,7 +562,7 @@
         self.imageBrowser = [[SOImageBrowserView alloc] init];
         
         self.imageBrowser.image = [UIImage imageWithData:cell.message.media];
-
+        
         self.imageBrowser.startFrame = [cell convertRect:cell.containerView.frame toView:self.view];
         
         [self.imageBrowser show];
@@ -509,11 +571,11 @@
         NSString *appFile = [NSTemporaryDirectory() stringByAppendingPathComponent:@"video.mp4"];
         [cell.message.media writeToFile:appFile atomically:YES];
         
-
+        
         self.moviePlayerController = [[MPMoviePlayerViewController alloc] initWithContentURL:[NSURL fileURLWithPath:appFile]];
         [self.moviePlayerController.moviePlayer prepareToPlay];
         [self.moviePlayerController.moviePlayer setShouldAutoplay:YES];
-
+        
         [self presentViewController:self.moviePlayerController animated:YES completion:^{
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
         }];
@@ -521,23 +583,35 @@
     }
 }
 
--(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
+-(BOOL)tableView:(UITableView *)tableView
+shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    self.selectedIndexPathForMenu = indexPath;
+//    SOMessageCell *cell = (SOMessageCell *)[self tableView:tableView
+//                                     cellForRowAtIndexPath:indexPath];
+//    cell.textView.selectable = NO;
+    return [self shouldShowMenuOnLongPress];
 }
 
--(BOOL)canPerformAction:(SEL)action
-             withSender:(id)sender
+-(BOOL) shouldShowMenuOnLongPress
 {
-    return action == @selector(sendAgain:);
+    return NO;
 }
 
-- (void)handleLongPress:(UILongPressGestureRecognizer *)longPress
+-(BOOL)tableView:(UITableView *)tableView
+canPerformAction:(SEL)action
+forRowAtIndexPath:(NSIndexPath *)indexPath
+      withSender:(id)sender
 {
+    return ![self shouldShowMenuOnLongPress];
 }
 
--(void) sendAgain:(id)sender {
-
+-(void)tableView:(UITableView *)tableView
+   performAction:(SEL)action
+forRowAtIndexPath:(NSIndexPath *)indexPath
+      withSender:(id)sender
+{
+    
 }
 
 #pragma mark - Helper methods
@@ -550,10 +624,21 @@
     CGContextSetBlendMode(context, kCGBlendModeNormal);
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
     CGContextClipToMask(context, rect, image.CGImage);
-//    [color setFill];
+    //    [color setFill];
     CGContextFillRect(context, rect);
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIMenuControllerWillShowMenuNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIMenuControllerWillShowMenuNotification
+                                                  object:nil];
+}
+
 @end

@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 #import "SOMessageType.h"
 
+
+
+
 @protocol SOMessage
 
 /**
@@ -74,5 +77,11 @@
  * Boolean value that indicates is media uploading right now
  */
 @property (nonatomic, readwrite) BOOL isUploading;
+
+/**
+ * Type of message.
+ * Define it in own file
+ */
+@property (nonatomic) NSInteger status;
 
 @end

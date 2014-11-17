@@ -32,11 +32,11 @@
 
 @protocol LongPressOnCell <NSObject>
 
-- (void)handleLongPress:(UILongPressGestureRecognizer *)longPress;
+-(BOOL) shouldShowMenuOnLongPress;
 
 @end
 
-@interface SOMessagingViewController : UIViewController <SOMessagingDataSource, SOMessagingDelegate, UITableViewDataSource, LongPressOnCell>
+@interface SOMessagingViewController : UIViewController <SOMessagingDataSource, SOMessagingDelegate, UITableViewDataSource, LongPressOnCell, SOMessageCellDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) UITableView *tableView;
