@@ -546,10 +546,13 @@
 -(BOOL)tableView:(UITableView *)tableView
 shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.selectedIndexPathForMenu = indexPath;
-    SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    cell.textView.selectable = NO;
-    return [self shouldShowMenuOnLongPress];
+    BOOL result = [self shouldShowMenuOnLongPress];
+    if (result) {
+        self.selectedIndexPathForMenu = indexPath;
+        SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.textView.selectable = NO;
+    }
+    return result;
 }
 
 -(BOOL) shouldShowMenuOnLongPress

@@ -55,7 +55,6 @@
 		75B35A3C1922B80800513423 /* SOMessagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B35A281922B80800513423 /* SOMessagingViewController.m */; };
 		75B35A3D1922B80800513423 /* SOPlaceholderedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B35A2A1922B80800513423 /* SOPlaceholderedTextView.m */; };
 		75B35A3E1922B80800513423 /* UINavigationController+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B35A2C1922B80800513423 /* UINavigationController+Rotation.m */; };
-		E60B11FF1A15EF1300CEDFFA /* SOmessageImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E60B11FE1A15EF1300CEDFFA /* SOmessageImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,8 +137,6 @@
 		75B35A2A1922B80800513423 /* SOPlaceholderedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOPlaceholderedTextView.m; sourceTree = "<group>"; };
 		75B35A2B1922B80800513423 /* UINavigationController+Rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Rotation.h"; sourceTree = "<group>"; };
 		75B35A2C1922B80800513423 /* UINavigationController+Rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Rotation.m"; sourceTree = "<group>"; };
-		E60B11FD1A15EF1300CEDFFA /* SOmessageImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOmessageImageView.h; sourceTree = "<group>"; };
-		E60B11FE1A15EF1300CEDFFA /* SOmessageImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOmessageImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,8 +363,6 @@
 				75B35A2A1922B80800513423 /* SOPlaceholderedTextView.m */,
 				75B35A2B1922B80800513423 /* UINavigationController+Rotation.h */,
 				75B35A2C1922B80800513423 /* UINavigationController+Rotation.m */,
-				E60B11FD1A15EF1300CEDFFA /* SOmessageImageView.h */,
-				E60B11FE1A15EF1300CEDFFA /* SOmessageImageView.m */,
 			);
 			name = SOMessaging;
 			path = ../../SOMessaging;
@@ -511,7 +506,6 @@
 				75B35A3C1922B80800513423 /* SOMessagingViewController.m in Sources */,
 				75B35A3A1922B80800513423 /* SOMessageCell.m in Sources */,
 				3ED720E9197CF32200393C27 /* Type4VC.m in Sources */,
-				E60B11FF1A15EF1300CEDFFA /* SOmessageImageView.m in Sources */,
 				3E207894193DFC6300EC9FA4 /* Message.m in Sources */,
 				3EBD8109191A4D0A0007B68A /* Type2VC.m in Sources */,
 				75493C1E19070071006C6BCD /* main.m in Sources */,
