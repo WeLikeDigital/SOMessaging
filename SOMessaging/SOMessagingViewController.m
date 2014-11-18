@@ -34,7 +34,7 @@
 
 #define kMessageMaxWidth 240.0f
 
-@interface SOMessagingViewController () <UITableViewDelegate>
+@interface SOMessagingViewController () <UITableViewDelegate, UIGestureRecognizerDelegate>
 {
     
 }
@@ -49,12 +49,11 @@
 
 @property (strong, nonatomic) SOImageBrowserView *imageBrowser;
 @property (strong, nonatomic) MPMoviePlayerViewController *moviePlayerController;
-
-//@property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
+@property (assign) BOOL insideBubble;
 
 - (void)didReceiveMenuWillShowNotification:(NSNotification *)notification;
 - (void)didReceiveMenuWillHideNotification:(NSNotification *)notification;
-
+-(void)longPress:(UILongPressGestureRecognizer *) gesture;
 @end
 
 @implementation SOMessagingViewController {
@@ -96,10 +95,26 @@
     
     [self setup];
     
+    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                       action:@selector(longPress:)];
+    lpgr.minimumPressDuration = 0.1;
+    [self.tableView addGestureRecognizer:lpgr];
+    
     [self subscribeForMenuNotifications];
     
     self.balloonSendImage    = [self balloonImageForSending];
     self.balloonReceiveImage = [self balloonImageForReceiving];
+}
+
+-(void)longPress:(UILongPressGestureRecognizer *) gesture
+{
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [gesture locationInView:self.tableView];
+        NSIndexPath *path = [self.tableView indexPathForRowAtPoint:point];
+        SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:path];
+        point = [gesture locationInView:cell.containerView];
+        self.insideBubble = CGRectContainsPoint(cell.balloonImageView.frame, point);
+    }
 }
 
 -(void) subscribeForMenuNotifications
@@ -546,7 +561,7 @@
 -(BOOL)tableView:(UITableView *)tableView
 shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL result = [self shouldShowMenuOnLongPress];
+    BOOL result = [self shouldShowMenuOnLongPress] && self.insideBubble;
     if (result) {
         self.selectedIndexPathForMenu = indexPath;
         SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
