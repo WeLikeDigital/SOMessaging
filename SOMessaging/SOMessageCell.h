@@ -32,7 +32,6 @@
 
 @class SOMessageCell;
 @class DAProgressOverlayView;
-@class SOmessageImageView;
 
 @protocol SOMessageCellDelegate <NSObject>
 
@@ -45,9 +44,6 @@
 - (void)didTapCopyOnMessageCell:(SOMessageCell *)cell;
 @end
 
-@interface SOMessageTextView : UITextView
-@end
-
 @interface SOMessageCell : UITableViewCell
 
 @property (weak, nonatomic) UITableView *tableView;
@@ -57,15 +53,15 @@
 @property (strong, nonatomic) UIFont *messageFont;
 
 @property (strong, nonatomic) UIImageView *userImageView;
-@property (strong, nonatomic) SOMessageTextView *textView;
+@property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UILabel *timeLabel; //appears while dragging cell
 @property (strong, nonatomic) UIImageView *backgroundImageView;
-@property (strong, nonatomic) SOmessageImageView *mediaImageView;
+@property (strong, nonatomic) UIImageView *mediaImageView;
 @property (strong, nonatomic) UIView *mediaOverlayView; // For video only
 @property (strong, nonatomic) DAProgressOverlayView *progressView;
 
 
-@property (strong, nonatomic) SOmessageImageView *balloonImageView;
+@property (strong, nonatomic) UIImageView *balloonImageView;
 
 @property (strong, nonatomic) UIPanGestureRecognizer *panGesture;
 

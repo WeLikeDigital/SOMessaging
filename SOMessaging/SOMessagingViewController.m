@@ -30,7 +30,6 @@
 
 #import "SOImageBrowserView.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "SOmessageImageView.h"
 #import "SOMessage.h"
 
 #define kMessageMaxWidth 240.0f
@@ -117,51 +116,6 @@
                                                      name:UIMenuControllerWillHideMenuNotification
                                                    object:nil];
     }
-}
-
-- (void)didReceiveMenuWillShowNotification:(NSNotification *)notification
-{
-    if (self.selectedIndexPathForMenu) {
-        
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:UIMenuControllerWillShowMenuNotification
-                                                      object:nil];
-        
-        UIMenuController *menu = [notification object];
-        UIMenuItem *sendItem = [[UIMenuItem alloc] initWithTitle:@"Send" action:@selector(send:)];
-        UIMenuItem *deleteItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteMessage:)];
-        [menu setMenuItems:@[sendItem, deleteItem]];
-        [menu setMenuVisible:NO
-                    animated:NO];
-        
-        SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:self.selectedIndexPathForMenu];
-        
-        CGRect selectedCellMessageBubbleFrame = [cell convertRect:cell.balloonImageView.frame
-                                                           toView:self.view];
-        
-        if (cell.message.fromMe) {
-            selectedCellMessageBubbleFrame.origin.x += [UIScreen mainScreen].bounds.size.width - selectedCellMessageBubbleFrame.size.width;
-        }
-        
-        [menu setTargetRect:CGRectMake(selectedCellMessageBubbleFrame.origin.x, selectedCellMessageBubbleFrame.origin.y, 50, 50)//selectedCellMessageBubbleFrame
-                     inView:self.view];
-        
-        [menu setMenuVisible:YES
-                    animated:YES];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didReceiveMenuWillShowNotification:)
-                                                     name:UIMenuControllerWillShowMenuNotification
-                                                   object:nil];
-    }
-}
-
--(void)didReceiveMenuWillHideNotification:(NSNotification *)notification
-{
-//    SOMessageCell *cell = (SOMessageCell *)[self tableView:self.tableView
-//                                     cellForRowAtIndexPath:self.selectedIndexPathForMenu];
-//    cell.textView.selectable = YES;
-    self.selectedIndexPathForMenu = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -316,7 +270,7 @@
     
     [cell adjustCell];
     
-    cell.textView.selectable = ![self shouldShowMenuOnLongPress];
+    cell.textView.selectable = YES;
     
     return cell;
 }
@@ -593,9 +547,8 @@
 shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedIndexPathForMenu = indexPath;
-//    SOMessageCell *cell = (SOMessageCell *)[self tableView:tableView
-//                                     cellForRowAtIndexPath:indexPath];
-//    cell.textView.selectable = NO;
+    SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    cell.textView.selectable = NO;
     return [self shouldShowMenuOnLongPress];
 }
 
@@ -618,6 +571,53 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       withSender:(id)sender
 {
     
+}
+
+#pragma mark - Notifications
+- (void)didReceiveMenuWillShowNotification:(NSNotification *)notification
+{
+    if (self.selectedIndexPathForMenu) {
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:UIMenuControllerWillShowMenuNotification
+                                                      object:nil];
+        
+        UIMenuController *menu = [notification object];
+        UIMenuItem *sendItem = [[UIMenuItem alloc] initWithTitle:@"Send" action:@selector(send:)];
+        UIMenuItem *deleteItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteMessage:)];
+        [menu setMenuItems:@[sendItem, deleteItem]];
+        [menu setMenuVisible:NO
+                    animated:NO];
+        
+        SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:self.selectedIndexPathForMenu];
+        
+        CGRect selectedCellMessageBubbleFrame = [cell convertRect:cell.balloonImageView.frame
+                                                           toView:self.view];
+        
+        if (cell.message.fromMe) {
+            selectedCellMessageBubbleFrame.origin.x += [UIScreen mainScreen].bounds.size.width - selectedCellMessageBubbleFrame.size.width;
+        }
+        
+        [menu setTargetRect:CGRectMake(selectedCellMessageBubbleFrame.origin.x, selectedCellMessageBubbleFrame.origin.y, 50, 50)//selectedCellMessageBubbleFrame
+                     inView:self.view];
+        
+        [menu setMenuVisible:YES
+                    animated:YES];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMenuWillShowNotification:)
+                                                     name:UIMenuControllerWillShowMenuNotification
+                                                   object:nil];
+    }
+}
+
+-(void)didReceiveMenuWillHideNotification:(NSNotification *)notification
+{
+    if (self.selectedIndexPathForMenu) {
+        SOMessageCell *cell = (SOMessageCell *)[self.tableView cellForRowAtIndexPath:self.selectedIndexPathForMenu];
+        self.selectedIndexPathForMenu = nil;
+        cell.textView.selectable = YES;
+    }
 }
 
 #pragma mark - Helper methods

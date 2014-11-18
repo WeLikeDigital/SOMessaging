@@ -26,7 +26,6 @@
 #import "NSString+Calculation.h"
 #import "DAProgressOverlayView.h"
 #import "UIImageView+WebCache.h"
-#import "SOmessageImageView.h"
 
 @interface SOMessageCell() < UIGestureRecognizerDelegate>
 {
@@ -34,15 +33,6 @@
 }
 @property (nonatomic) CGSize mediaImageViewSize;
 @property (nonatomic) CGSize userImageViewSize;
-
-@end
-
-@implementation SOMessageTextView
-
--(BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
 
 @end
 
@@ -130,9 +120,9 @@ static BOOL cellIsDragging;
     self.userImageView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.messageMaxWidth, 0)];
     self.timeLabel = [[UILabel alloc] init];
-    self.mediaImageView = [[SOmessageImageView alloc] init];
+    self.mediaImageView = [[UIImageView alloc] init];
     self.mediaOverlayView = [[UIView alloc] init];
-    self.balloonImageView = [[SOmessageImageView alloc] init];
+    self.balloonImageView = [[UIImageView alloc] init];
     
     self.balloonImageView.userInteractionEnabled = YES;
     
@@ -464,9 +454,7 @@ static BOOL cellIsDragging;
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
                 self.message.isUploading = NO;
                 [self.progressView removeFromSuperview];
-                if (self.progressView.progress != 0) {
-                    self.mediaImageView.alpha = 0.8;
-                }
+                self.mediaImageView.alpha = 0.8;
             });
         }
     }
