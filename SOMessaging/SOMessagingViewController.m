@@ -23,16 +23,17 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
 #import "SOMessagingViewController.h"
-#import "SOMessage.h"
-#import "SOMessageCell.h"
-
 #import "NSString+Calculation.h"
-
 #import "SOImageBrowserView.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "SOMessage.h"
 
 #define kMessageMaxWidth 240.0f
+
+static NSString *const kMessageDateBackgroundImageName = @"messagesDateBackground";
+static NSString *const kReceiveBubbleImageName = @"received";
+static NSString *const kSendingBubbleImageName = @"sending";
+static NSString *const kNotSentBubbleImageName = @"not_sent";
+static NSString *const kSentBubbleImageName = @"sent";
 
 @interface SOMessagingViewController () <UITableViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -64,6 +65,12 @@
 
 - (void)setup
 {
+    [self setupTableView];
+    [self setupInputView];
+}
+
+-(void) setupTableView
+{
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor colorWithRed:232.0/255.0
                                                      green:236.0/255.0
@@ -72,14 +79,17 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+
     self.tableViewHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
     self.tableViewHeaderView.backgroundColor = [UIColor clearColor];
     self.tableView.tableHeaderView = self.tableViewHeaderView;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    
+
     [self.view addSubview:self.tableView];
-    
+}
+
+-(void) setupInputView
+{
     self.inputView = [[SOMessageInputView alloc] init];
     self.inputView.tintColor = [UIColor blueColor];
     self.inputView.delegate = self;
@@ -88,21 +98,30 @@
     [self.inputView adjustPosition];
 }
 
-#pragma mark - View lifecicle
+#pragma mark - View lifecycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [self setup];
-    
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                       action:@selector(longPress:)];
-    lpgr.minimumPressDuration = 0.1;
-    [self.tableView addGestureRecognizer:lpgr];
-    
+    [self addLongPressGesture];
     [self subscribeForMenuNotifications];
-    
-    self.balloonSendImage    = [self balloonImageForSending];
+    [self setupBalloonsImages];
+}
+
+-(void) addLongPressGesture
+{
+    if ([self shouldShowMenuOnLongPress])
+    {
+        UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                                 action:@selector(longPress:)];
+        longPressGestureRecognizer.minimumPressDuration = 0.1;
+        [self.tableView addGestureRecognizer:longPressGestureRecognizer];
+    }
+}
+
+-(void) setupBalloonsImages
+{
+    self.balloonSendImage = [self balloonImageForSending];
     self.balloonReceiveImage = [self balloonImageForReceiving];
 }
 
@@ -136,9 +155,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     self.conversation = [self grouppedMessages];
-    
     [self.tableView reloadData];
 }
 
@@ -161,10 +178,7 @@
 // This code will work only if this vc hasn't navigation controller
 - (BOOL)shouldAutorotate
 {
-    if (self.inputView.viewIsDragging) {
-        return NO;
-    }
-    return YES;
+    return !self.inputView.viewIsDragging;
 }
 
 #pragma mark - Table view data source
@@ -230,7 +244,7 @@
     label.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
     label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     
-    UIImage *backgroundImage = [UIImage imageNamed:@"messagesDateBackground"];
+    UIImage *backgroundImage = [UIImage imageNamed:kMessageDateBackgroundImageName];
     if (backgroundImage) {
         label.textColor = [UIColor whiteColor];
         UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(10, 20, 10, 20)]];
@@ -303,14 +317,28 @@
     id<SOMessage> message = [self messages][index];
     
     if (message.type == SOMessageTypeText) {
-        CGSize size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
+        height = [self calculateHeightForMessage:message];
+        
+    } else {
+        CGSize size = [self mediaThumbnailSize];
+        if (size.height < [self userImageSize].height) {
+            size.height = [self userImageSize].height;
+        }
+        height = size.height + kBubbleTopMargin + kBubbleBottomMargin;
+    }
+    return height;
+}
+
+-(CGFloat) calculateHeightForMessage:(id < SOMessage >) message
+{
+    CGSize size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
                                                withFont:[self messageFont]];
-        if (message.attributes) {
+    if (message.attributes) {
             size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
                                       withAttributes:message.attributes];
         }
-        
-        if (self.balloonMinWidth) {
+
+    if (self.balloonMinWidth) {
             CGFloat messageMinWidth = self.balloonMinWidth - [SOMessageCell messageLeftMargin] - [SOMessageCell messageRightMargin];
             if (size.width <  messageMinWidth) {
                 size.width = messageMinWidth;
@@ -325,30 +353,21 @@
                 size.height = newSize.height;
             }
         }
-        
-        CGFloat messageMinHeight = self.balloonMinHeight - ([SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin]);
-        if ([self balloonMinHeight] && size.height < messageMinHeight) {
+
+    CGFloat messageMinHeight = self.balloonMinHeight - ([SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin]);
+    if ([self balloonMinHeight] && size.height < messageMinHeight) {
             size.height = messageMinHeight;
         }
-        
-        size.height += [SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin];
-        
-        if (!CGSizeEqualToSize([self userImageSize], CGSizeZero)) {
+
+    size.height += [SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin];
+
+    if (!CGSizeEqualToSize([self userImageSize], CGSizeZero)) {
             if (size.height < [self userImageSize].height) {
                 size.height = [self userImageSize].height;
             }
         }
-        
-        height = size.height + kBubbleTopMargin + kBubbleBottomMargin;
-        
-    } else {
-        CGSize size = [self mediaThumbnailSize];
-        if (size.height < [self userImageSize].height) {
-            size.height = [self userImageSize].height;
-        }
-        height = size.height + kBubbleTopMargin + kBubbleBottomMargin;
-    }
-    return height;
+
+    return size.height + kBubbleTopMargin + kBubbleBottomMargin;
 }
 
 - (NSTimeInterval)intervalForMessagesGrouping
@@ -358,25 +377,25 @@
 
 - (UIImage *)balloonImageForReceiving
 {
-    UIImage *bubble = [UIImage imageNamed:@"received"];
+    UIImage *bubble = [UIImage imageNamed:kReceiveBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
 }
 
 - (UIImage *)balloonImageForNotSending
 {
-    UIImage *bubble = [UIImage imageNamed:@"sending"];
+    UIImage *bubble = [UIImage imageNamed:kSendingBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForError
 {
-    UIImage *bubble = [UIImage imageNamed:@"not_sent"];
+    UIImage *bubble = [UIImage imageNamed:kNotSentBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForSending
 {
-    UIImage *bubble = [UIImage imageNamed:@"sent"];
+    UIImage *bubble = [UIImage imageNamed:kSentBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
