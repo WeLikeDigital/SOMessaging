@@ -441,7 +441,7 @@ static BOOL cellIsDragging;
     [self adjustMediaImageViewWithFrame:&frame];
     [self adjustProgressViewWithFrame:frame];
     [self adjustBalloonImageViewWithFrame:frame];
-    [self adjustUserImageView];
+    [self adjustUserImageView:frame];
     [self adjustContainerViewWithFrame:frame];
     [self maskMediaImageView];
     [self adjustTimeLabel];
@@ -478,7 +478,7 @@ static BOOL cellIsDragging;
     self.balloonImageView.image = self.balloonImage;
 }
 
--(void) adjustUserImageView
+-(void) adjustUserImageView:(CGRect) frame
 {
     CGRect userRect = self.userImageView.frame;
 

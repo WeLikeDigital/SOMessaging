@@ -18,7 +18,7 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_4bdf0fcdc888dd09aee6299a7a00cb0db57984ea" />
   <component name="FavoritesManager">
     <favorites_list name="SOSimpleChatDemo" />
   </component>
@@ -34,13 +34,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SOMessagingViewController.m" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SOMessagingViewController.m" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.47862068" vertical-offset="10363" max-vertical-offset="11088">
-              <caret line="626" column="33" selection-start-line="626" selection-start-column="33" selection-end-line="626" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="10363" max-vertical-offset="11088">
+              <caret line="670" column="28" selection-start-line="670" selection-start-column="28" selection-end-line="670" selection-end-column="28" />
               <folding>
                 <element signature="e#1218#1255#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SOMessageCell.m" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessageCell.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.2327044" vertical-offset="7169" max-vertical-offset="11456">
+              <caret line="480" column="42" selection-start-line="480" selection-start-column="42" selection-end-line="480" selection-end-column="42" />
+              <folding>
+                <element signature="e#15635#16381#0" expanded="false" />
+                <element signature="e#16383#16601#0" expanded="false" />
+                <element signature="e#19612#19857#0" expanded="false" />
+                <element signature="e#19859#20609#0" expanded="false" />
+                <element signature="e#20611#20854#0" expanded="false" />
+                <element signature="e#20856#21061#0" expanded="false" />
+                <element signature="e#21063#21302#0" expanded="false" />
+                <element signature="e#21304#22005#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -56,8 +75,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../SOMessaging/SOMessageCell.m" />
         <option value="$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.m" />
+        <option value="$PROJECT_DIR$/../SOMessaging/SOMessageCell.m" />
       </list>
     </option>
   </component>
@@ -211,7 +230,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934928" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32934928" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24609375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -271,15 +290,15 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="6096" max-vertical-offset="11664">
           <caret line="381" column="0" selection-start-line="381" selection-start-column="0" selection-end-line="381" selection-end-column="0" />
           <folding>
-            <element signature="e#15282#15627#0" expanded="false" />
-            <element signature="e#15629#16375#0" expanded="false" />
-            <element signature="e#16377#16595#0" expanded="false" />
-            <element signature="e#19591#19836#0" expanded="false" />
-            <element signature="e#19838#20588#0" expanded="false" />
-            <element signature="e#20590#20833#0" expanded="false" />
-            <element signature="e#20835#21040#0" expanded="false" />
-            <element signature="e#21042#21281#0" expanded="false" />
-            <element signature="e#21283#21984#0" expanded="false" />
+            <element signature="e#15282#15633#0" expanded="false" />
+            <element signature="e#15635#16381#0" expanded="false" />
+            <element signature="e#16383#16601#0" expanded="false" />
+            <element signature="e#19612#19857#0" expanded="false" />
+            <element signature="e#19859#20609#0" expanded="false" />
+            <element signature="e#20611#20854#0" expanded="false" />
+            <element signature="e#20856#21061#0" expanded="false" />
+            <element signature="e#21063#21302#0" expanded="false" />
+            <element signature="e#21304#22005#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -315,15 +334,15 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="6096" max-vertical-offset="11248">
           <caret line="381" column="0" selection-start-line="381" selection-start-column="0" selection-end-line="381" selection-end-column="0" />
           <folding>
-            <element signature="e#15282#15627#0" expanded="false" />
-            <element signature="e#15629#16375#0" expanded="false" />
-            <element signature="e#16377#16595#0" expanded="false" />
-            <element signature="e#19591#19836#0" expanded="false" />
-            <element signature="e#19838#20588#0" expanded="false" />
-            <element signature="e#20590#20833#0" expanded="false" />
-            <element signature="e#20835#21040#0" expanded="false" />
-            <element signature="e#21042#21281#0" expanded="false" />
-            <element signature="e#21283#21984#0" expanded="false" />
+            <element signature="e#15282#15633#0" expanded="false" />
+            <element signature="e#15635#16381#0" expanded="false" />
+            <element signature="e#16383#16601#0" expanded="false" />
+            <element signature="e#19612#19857#0" expanded="false" />
+            <element signature="e#19859#20609#0" expanded="false" />
+            <element signature="e#20611#20854#0" expanded="false" />
+            <element signature="e#20856#21061#0" expanded="false" />
+            <element signature="e#21063#21302#0" expanded="false" />
+            <element signature="e#21304#22005#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -410,30 +429,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessageCell.m">
+    <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22068965" vertical-offset="1456" max-vertical-offset="11296">
-          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="10363" max-vertical-offset="11088">
+          <caret line="670" column="28" selection-start-line="670" selection-start-column="28" selection-end-line="670" selection-end-column="28" />
           <folding>
-            <element signature="e#15282#15627#0" expanded="false" />
-            <element signature="e#15629#16375#0" expanded="false" />
-            <element signature="e#16377#16595#0" expanded="false" />
-            <element signature="e#19591#19836#0" expanded="false" />
-            <element signature="e#19838#20588#0" expanded="false" />
-            <element signature="e#20590#20833#0" expanded="false" />
-            <element signature="e#20835#21040#0" expanded="false" />
-            <element signature="e#21042#21281#0" expanded="false" />
-            <element signature="e#21283#21984#0" expanded="false" />
+            <element signature="e#1218#1255#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.m">
+    <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessageCell.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.47862068" vertical-offset="10363" max-vertical-offset="11088">
-          <caret line="626" column="33" selection-start-line="626" selection-start-column="33" selection-end-line="626" selection-end-column="33" />
+        <state vertical-scroll-proportion="0.2327044" vertical-offset="7169" max-vertical-offset="11456">
+          <caret line="480" column="42" selection-start-line="480" selection-start-column="42" selection-end-line="480" selection-end-column="42" />
           <folding>
-            <element signature="e#1218#1255#0" expanded="true" />
+            <element signature="e#15635#16381#0" expanded="false" />
+            <element signature="e#16383#16601#0" expanded="false" />
+            <element signature="e#19612#19857#0" expanded="false" />
+            <element signature="e#19859#20609#0" expanded="false" />
+            <element signature="e#20611#20854#0" expanded="false" />
+            <element signature="e#20856#21061#0" expanded="false" />
+            <element signature="e#21063#21302#0" expanded="false" />
+            <element signature="e#21304#22005#0" expanded="false" />
           </folding>
         </state>
       </provider>
