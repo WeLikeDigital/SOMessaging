@@ -468,7 +468,7 @@ static BOOL cellIsDragging;
     }
 
     self.mediaImageView.frame = newFrame;
-    frame = &newFrame;
+    *frame = newFrame;
 }
 
 -(void) adjustBalloonImageViewWithFrame:(CGRect) frame
