@@ -34,6 +34,8 @@ static NSString *const kReceiveBubbleImageName = @"received";
 static NSString *const kSendingBubbleImageName = @"sending";
 static NSString *const kNotSentBubbleImageName = @"not_sent";
 static NSString *const kSentBubbleImageName = @"sent";
+static NSString *const kDeliveredBubbleImageName = @"delivered";
+static NSString *const kReadBubbleImageName = @"read";
 
 @interface SOMessagingViewController () <UITableViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -121,8 +123,8 @@ static NSString *const kSentBubbleImageName = @"sent";
 
 -(void) setupBalloonsImages
 {
-    self.balloonSendImage = [self balloonImageForSending];
-    self.balloonReceiveImage = [self balloonImageForReceiving];
+    self.balloonSendImage = [self balloonImageForSent];
+    self.balloonReceiveImage = [self balloonImageForReceived];
 }
 
 -(void)longPress:(UILongPressGestureRecognizer *) gesture
@@ -289,13 +291,14 @@ static NSString *const kSentBubbleImageName = @"sent";
     cell.delegate = self;
     cell.messageFont = [self messageFont];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.balloonImage = message.fromMe ? self.balloonImageForSending : self.balloonReceiveImage;
+    cell.balloonImage = message.fromMe ? self.balloonSendImage : self.balloonReceiveImage;
     cell.textView.textColor = message.fromMe ? [UIColor whiteColor] : [UIColor blackColor];
     cell.message = message;
     
     // For user customization
     int index = (int)[[self messages] indexOfObject:message];
-    [self configureMessageCell:cell forMessageAtIndex:index];
+    [self configureMessageCell:cell
+             forMessageAtIndex:index];
     
     [cell adjustCell];
     
@@ -375,16 +378,10 @@ static NSString *const kSentBubbleImageName = @"sent";
     return 0;
 }
 
-- (UIImage *)balloonImageForReceiving
+- (UIImage *)balloonImageForReceived
 {
     UIImage *bubble = [UIImage imageNamed:kReceiveBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
-}
-
-- (UIImage *)balloonImageForNotSending
-{
-    UIImage *bubble = [UIImage imageNamed:kSendingBubbleImageName];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
 - (UIImage *)balloonImageForError
@@ -393,9 +390,27 @@ static NSString *const kSentBubbleImageName = @"sent";
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 
-- (UIImage *)balloonImageForSending
+- (UIImage *)balloonImageForSent
 {
     UIImage *bubble = [UIImage imageNamed:kSentBubbleImageName];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+}
+
+- (UIImage *)balloonImageForSending
+{
+    UIImage *bubble = [UIImage imageNamed:kSendingBubbleImageName];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+}
+
+- (UIImage *)balloonImageForDelivered
+{
+    UIImage *bubble = [UIImage imageNamed:kDeliveredBubbleImageName];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+}
+
+- (UIImage *)balloonImageForRead
+{
+    UIImage *bubble = [UIImage imageNamed:kReadBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
 }
 

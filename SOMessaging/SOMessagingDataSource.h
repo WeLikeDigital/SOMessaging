@@ -58,16 +58,20 @@
 /**
  * Return resizable image for sending balloon background image
  */
-- (UIImage *)balloonImageForSending;
+- (UIImage *)balloonImageForSent;
 
 /**
  * Return resizable image for receiving balloon background image
  */
-- (UIImage *)balloonImageForReceiving;
+- (UIImage *)balloonImageForReceived;
 
 - (UIImage *)balloonImageForError;
 
-- (UIImage *)balloonImageForNotSending;
+- (UIImage *)balloonImageForSending;
+
+- (UIImage *)balloonImageForDelivered;
+
+- (UIImage *)balloonImageForRead;
 
 /**
  * Maximum width of message
