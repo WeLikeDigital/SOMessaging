@@ -343,6 +343,7 @@ static NSString *const kReadBubbleImageName = @"read";
 
     if (self.balloonMinWidth) {
             CGFloat messageMinWidth = self.balloonMinWidth - [SOMessageCell messageLeftMargin] - [SOMessageCell messageRightMargin];
+            messageMinWidth -= [message fromMe] ? 0 : 10;
             if (size.width <  messageMinWidth) {
                 size.width = messageMinWidth;
                 
@@ -355,7 +356,7 @@ static NSString *const kReadBubbleImageName = @"read";
                 
                 size.height = newSize.height;
             }
-        }
+    }
 
     CGFloat messageMinHeight = self.balloonMinHeight - ([SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin]);
     if ([self balloonMinHeight] && size.height < messageMinHeight) {

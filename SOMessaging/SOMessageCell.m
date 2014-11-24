@@ -83,7 +83,7 @@ static BOOL cellIsDragging;
     messageTopMargin = 9;
     messageBottomMargin = 9;
     messageLeftMargin = 15;
-    messageRightMargin = 15;
+    messageRightMargin = 25;
     
     contentOffsetX = 0;
     maxContentOffsetX = 50;
@@ -303,6 +303,7 @@ static BOOL cellIsDragging;
     CGRect usedFrame = [self usedRectForWidth:self.messageMaxWidth];;
     if (self.balloonMinWidth) {
         CGFloat messageMinWidth = self.balloonMinWidth - messageLeftMargin - messageRightMargin;
+        messageMinWidth -= [self.message fromMe] ? 0 : 10;
         if (usedFrame.size.width <  messageMinWidth) {
             usedFrame.size.width = messageMinWidth;
             
@@ -325,6 +326,7 @@ static BOOL cellIsDragging;
     
     CGRect balloonFrame = self.balloonImageView.frame;
     balloonFrame.size.width = frame.size.width + messageLeftMargin + messageRightMargin;
+    balloonFrame.size.width -= [self.message fromMe] ? 0 : 10;
     balloonFrame.size.height = frame.size.height + messageTopMargin + messageBottomMargin;
     balloonFrame.origin.y = 0;
     frame.origin.x = self.message.fromMe ? messageLeftMargin : (balloonFrame.size.width - frame.size.width - messageLeftMargin);
