@@ -319,6 +319,7 @@ static const CGFloat kButtonSize = 30;
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self adjustTextViewSize];
+    [self.delegate messageInputViewDidChange:self];
 }
 
 #pragma mark - Notifications handlers

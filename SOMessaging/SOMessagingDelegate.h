@@ -32,16 +32,23 @@
 /**
  * Called when user tap the media image view
  */
-- (void)didSelectMedia:(NSData *)media inMessageCell:(SOMessageCell *)cell;
+- (void)didSelectMedia:(NSData *)media
+         inMessageCell:(SOMessageCell *)cell;
 
 /**
  * Called when user tap on send button
  */
-- (void)messageInputView:(SOMessageInputView *)inputView didSendMessage:(NSString *)message;
+- (void)messageInputView:(SOMessageInputView *)inputView
+          didSendMessage:(NSString *)message;
 
 /**
  * Called when user tap on attach media button
  */
 - (void)messageInputViewDidSelectMediaButton:(SOMessageInputView *)inputView;
+
+/**
+ * CalledWhenInputViewDidChange
+ */
+- (void)messageInputViewDidChange:(SOMessageInputView *)inputView;
 
 @end

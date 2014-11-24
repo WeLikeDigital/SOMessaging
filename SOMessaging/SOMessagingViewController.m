@@ -481,6 +481,7 @@ static NSString *const kReadBubbleImageName = @"read";
     if (row >= 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        self.tableView.tableFooterView = nil;
     }
 }
 
@@ -591,6 +592,11 @@ static NSString *const kReadBubbleImageName = @"read";
         }];
         [[UIApplication sharedApplication] setStatusBarHidden:NO];
     }
+}
+
+-(void)messageInputViewDidChange:(SOMessageInputView *)inputView
+{
+    
 }
 
 -(BOOL)tableView:(UITableView *)tableView
