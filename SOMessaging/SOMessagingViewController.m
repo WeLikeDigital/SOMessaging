@@ -406,13 +406,13 @@ static NSString *const kReadBubbleImageName = @"read";
 - (UIImage *)balloonImageForDelivered
 {
     UIImage *bubble = [UIImage imageNamed:kDeliveredBubbleImageName];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 35)];
 }
 
 - (UIImage *)balloonImageForRead
 {
     UIImage *bubble = [UIImage imageNamed:kReadBubbleImageName];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 35)];
 }
 
 - (void)configureMessageCell:(SOMessageCell *)cell forMessageAtIndex:(NSInteger)index
