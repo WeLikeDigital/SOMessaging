@@ -602,6 +602,10 @@ static NSString *const kReadBubbleImageName = @"read";
 -(void) didTapMessageCell:(SOMessageCell *) cell
 {
     if (!self.selectedIndexPathForMenu) {
+        if (cell.message.type != SOMessageTypeText) {
+            [self didSelectMedia:cell.message.media
+                   inMessageCell:cell];
+        }
     }
 }
 
