@@ -27,7 +27,8 @@
 #import "UINavigationController+Rotation.h"
 
 static const CGFloat kSendButtonMargins = 10;
-static const CGFloat kButtonSize = 30;
+static const CGFloat kButtonSize = 40;
+static const CGFloat kSendButtonWidth = 50;
 
 @interface SOMessageInputView() <UITextViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -120,9 +121,10 @@ static const CGFloat kButtonSize = 30;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardWillHideNote:) name:UIKeyboardWillHideNotification object:nil];
     
     self.textView.placeholderText = NSLocalizedString(@"Type message...", nil);
-    [self.sendButton setBackgroundImage:[UIImage imageNamed:@"sendButton"]
-                               forState:UIControlStateNormal];
-    self.sendButton.frame = CGRectMake(0, 0, kButtonSize, kButtonSize);
+    [self.sendButton setImage:[UIImage imageNamed:@"sendButton"]
+                     forState:UIControlStateNormal];
+    
+    self.sendButton.frame = CGRectMake(0, 0, kSendButtonWidth, kButtonSize);
     
     [self.mediaButton setImage:[UIImage imageNamed:@"attachment"] forState:UIControlStateNormal];
     self.mediaButton.frame = CGRectMake(self.textleftMargin, 0, kButtonSize, kButtonSize);
