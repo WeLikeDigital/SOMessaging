@@ -599,6 +599,12 @@ static NSString *const kReadBubbleImageName = @"read";
     
 }
 
+-(void) didTapMessageCell:(SOMessageCell *) cell
+{
+    if (!self.selectedIndexPathForMenu) {
+    }
+}
+
 -(BOOL)tableView:(UITableView *)tableView
 shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath
 {

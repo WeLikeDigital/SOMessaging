@@ -42,6 +42,7 @@
 - (void)didTapSendOnMessageCell:(SOMessageCell *)cell;
 - (void)didTapDeleteOnMessageCell:(SOMessageCell *)cell;
 - (void)didTapCopyOnMessageCell:(SOMessageCell *)cell;
+- (void)didTapMessageCell:(SOMessageCell *)cell;
 @end
 
 @interface SOMessageCell : UITableViewCell

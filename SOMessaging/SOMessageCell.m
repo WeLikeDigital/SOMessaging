@@ -35,6 +35,7 @@ static const CGFloat kUserImageViewLeftMargin = 3;
 }
 @property (nonatomic) CGSize mediaImageViewSize;
 @property (nonatomic) CGSize userImageViewSize;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -102,6 +103,13 @@ static BOOL cellIsDragging;
     }
     
     return self;
+}
+
+-(void) handleTap:(UITapGestureRecognizer *) tapGestureRecognizer
+{
+    if (tapGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self.delegate didTapMessageCell:self];
+    }
 }
 
 -(void) addPanGesture
@@ -179,7 +187,9 @@ static BOOL cellIsDragging;
     [self.containerView addSubview:self.textView];
     [self.containerView addSubview:self.mediaImageView];
     [self.containerView addSubview:self.userImageView];
-    
+
+    [self addTapGesture];
+
     self.contentView.clipsToBounds = NO;
     self.clipsToBounds = NO;
     
@@ -206,6 +216,14 @@ static BOOL cellIsDragging;
     self.userImageView.hidden = YES;
     self.textView.hidden = YES;
     self.mediaImageView.hidden = YES;
+}
+
+-(void)addTapGesture
+{
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                        action:@selector(handleTap:)];
+    self.tapGestureRecognizer.delegate = self;
+    [self.containerView addGestureRecognizer:self.tapGestureRecognizer];
 }
 
 -(void) setupOrientationNotification
@@ -355,7 +373,9 @@ static BOOL cellIsDragging;
     self.textView.selectable = NO;
     self.textView.scrollEnabled = NO;
     self.textView.dataDetectorTypes = UIDataDetectorTypeLink | UIDataDetectorTypePhoneNumber;
-    self.textView.tintColor = [UIColor blueColor];
+    self.textView.tintColor = [UIColor blackColor];
+    self.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [UIColor blackColor],
+                                          NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     
     if (self.userImageView.autoresizingMask & UIViewAutoresizingFlexibleTopMargin) {
         userRect.origin.y = balloonFrame.origin.y + balloonFrame.size.height - userRect.size.height;
