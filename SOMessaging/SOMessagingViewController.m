@@ -652,8 +652,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                                       object:nil];
         
         UIMenuController *menu = [notification object];
-        UIMenuItem *sendItem = [[UIMenuItem alloc] initWithTitle:@"Send" action:@selector(send:)];
-        UIMenuItem *deleteItem = [[UIMenuItem alloc] initWithTitle:@"Delete" action:@selector(deleteMessage:)];
+        UIMenuItem *sendItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Send", @"")
+                                                          action:@selector(send:)];
+        UIMenuItem *deleteItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Delete", @"")
+                                                            action:@selector(deleteMessage:)];
         [menu setMenuItems:@[sendItem, deleteItem]];
         [menu setMenuVisible:NO
                     animated:NO];

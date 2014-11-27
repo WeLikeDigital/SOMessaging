@@ -56,7 +56,17 @@ static BOOL cellIsDragging;
 -(BOOL)canPerformAction:(SEL)action
              withSender:(id)sender
 {
-    return (((action == @selector(send:) || action == @selector(deleteMessage:)) && [self.message status] < 0)) || (action == @selector(copy:));
+    return [self isErrorMessageFor:action] || [self isDeleteMessageFor:action] || (action == @selector(copy:));
+}
+
+-(BOOL)isErrorMessageFor:(SEL)action
+{
+    return (action == @selector(send:) || action == @selector(deleteMessage:)) && self.message.status < 0;
+}
+                                                                         
+-(BOOL)isDeleteMessageFor:(SEL)action
+{
+    return action == @selector(deleteMessage:) && self.message.fromMe && self.message.status > 0;
 }
 
 -(void)send:(id) sender
