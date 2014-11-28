@@ -174,9 +174,6 @@ static BOOL cellIsDragging;
     self.mediaImageView.clipsToBounds = YES;
     self.mediaImageView.backgroundColor = [UIColor clearColor];
     self.mediaImageView.userInteractionEnabled = YES;
-
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMediaTapped:)];
-    [self.mediaImageView addGestureRecognizer:tap];
     
     self.mediaOverlayView.backgroundColor = [UIColor clearColor];
     [self.mediaImageView addSubview:self.mediaOverlayView];
@@ -268,13 +265,6 @@ static BOOL cellIsDragging;
         self.userImageViewSize = CGSizeZero;
     }
     [self adjustCell];
-}
-#pragma mark -
-- (void)handleMediaTapped:(UITapGestureRecognizer *)tap
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageCell:didTapMedia:)]) {
-        [self.delegate messageCell:self didTapMedia:self.message.media];
-    }
 }
 
 #pragma mark -
