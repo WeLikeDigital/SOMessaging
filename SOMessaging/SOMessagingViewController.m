@@ -418,7 +418,8 @@ static NSString *const kTypingBubbleImageName = @"typing";
 
 - (UIImage *)balloonImageForTyping
 {
-    return [UIImage imageNamed:kTypingBubbleImageName];
+    UIImage *bubble = [UIImage imageNamed:kTypingBubbleImageName];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(17, 27, 21, 17)];
 }
 
 - (void)configureMessageCell:(SOMessageCell *)cell forMessageAtIndex:(NSInteger)index
