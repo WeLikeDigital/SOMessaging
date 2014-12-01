@@ -464,7 +464,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessages];
+    [self refreshMessagesAndScroll:YES];
 }
 
 - (void)receiveMessage:(id<SOMessage>) message
@@ -474,10 +474,10 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessages];
+    [self refreshMessagesAndScroll:YES];
 }
 
-- (void)refreshMessages
+- (void)refreshMessagesAndScroll:(BOOL)scroll
 {
     self.conversation = [self grouppedMessages];
     [self.tableView reloadData];
@@ -485,7 +485,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
     NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
     
-    if (row >= 0) {
+    if (row >= 0 && scroll) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
         self.tableView.tableFooterView = nil;
