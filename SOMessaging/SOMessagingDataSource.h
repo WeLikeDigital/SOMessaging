@@ -73,6 +73,7 @@
 
 - (UIImage *)balloonImageForRead;
 
+- (UIImage *)balloonImageForTyping;
 /**
  * Maximum width of message
  */

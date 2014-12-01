@@ -36,6 +36,7 @@ static NSString *const kNotSentBubbleImageName = @"not_sent";
 static NSString *const kSentBubbleImageName = @"sent";
 static NSString *const kDeliveredBubbleImageName = @"delivered";
 static NSString *const kReadBubbleImageName = @"read";
+static NSString *const kTypingBubbleImageName = @"typing";
 
 @interface SOMessagingViewController () <UITableViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -413,6 +414,11 @@ static NSString *const kReadBubbleImageName = @"read";
 {
     UIImage *bubble = [UIImage imageNamed:kReadBubbleImageName];
     return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 35)];
+}
+
+- (UIImage *)balloonImageForTyping
+{
+    return [UIImage imageNamed:kTypingBubbleImageName];
 }
 
 - (void)configureMessageCell:(SOMessageCell *)cell forMessageAtIndex:(NSInteger)index
