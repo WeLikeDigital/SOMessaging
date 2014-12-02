@@ -481,14 +481,13 @@ static NSString *const kTypingBubbleImageName = @"typing";
 {
     self.conversation = [self grouppedMessages];
     [self.tableView reloadData];
-    
+    self.tableView.tableFooterView = nil;
     NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
     NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
     
     if (row >= 0 && scroll) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        self.tableView.tableFooterView = nil;
     }
 }
 
