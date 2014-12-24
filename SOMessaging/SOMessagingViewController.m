@@ -198,6 +198,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
         return 0;
     }
     // Return the number of rows in the section.
+//    NSLog(@"SECTION = %ld ROWS = %ld", (long)section, (long)[self.conversation[section] count]);
     return [self.conversation[section] count];
 }
 
@@ -464,7 +465,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessagesAndScroll:YES];
+    [self refreshMessages];
 }
 
 - (void)receiveMessage:(id<SOMessage>) message
@@ -474,20 +475,74 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessagesAndScroll:YES];
+    [self refreshMessages];
 }
 
-- (void)refreshMessagesAndScroll:(BOOL)scroll
+-(void) refreshForMessage:(id<SOMessage>) message
+                andScroll:(BOOL)needScroll
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self == %@", message];
+    NSInteger foundRow = NSNotFound;
+    NSInteger foundSection = NSNotFound;
+    
+    for (NSInteger index = 0; index < self.conversation.count; index++) {
+        id<SOMessage> foundMessage = [[self.conversation[index] filteredArrayUsingPredicate:predicate] firstObject];
+        if (foundMessage) {
+            foundRow = [self.conversation[index] indexOfObject:foundMessage];
+            foundSection = index;
+            break;
+        }
+    }
+    
+    NSIndexPath *indexPath = nil;
+    
+    if ((foundSection != NSNotFound) && (foundRow != NSNotFound)) {
+        indexPath = [NSIndexPath indexPathForRow:foundRow
+                                       inSection:foundSection];
+        
+//        NSLog(@"RELOAD OLD ROW = %ld", (long)foundRow);
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath]
+                              withRowAnimation:UITableViewRowAnimationNone];
+    }
+    else {
+        NSInteger section = ([self numberOfSectionsInTableView:self.tableView] - 1) ? : 0;
+        NSInteger row     = [self tableView:self.tableView
+                      numberOfRowsInSection:section];
+        
+        indexPath = [NSIndexPath indexPathForRow:row
+                                       inSection:section];
+        
+        self.conversation = [self grouppedMessages];
+        
+//        NSLog(@"INSERT NEW ROW = %ld", (long)row);
+        
+        [self.tableView insertRowsAtIndexPaths:@[indexPath]
+                              withRowAnimation:UITableViewRowAnimationBottom];
+    }
+    
+    if (needScroll) {
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
+    }
+}
+
+- (void)refreshMessages
 {
     self.conversation = [self grouppedMessages];
+    
     [self.tableView reloadData];
+    
     self.tableView.tableFooterView = nil;
     NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
     NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
     
-    if (row >= 0 && scroll) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    if (row >= 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row
+                                                    inSection:section];
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
     }
 }
 
@@ -530,16 +585,18 @@ static NSString *const kTypingBubbleImageName = @"typing";
         if ([self messages]) {
             [conversation addObject:[self messages]];
         }
-    } else {
-        int groupIndex = 0;
+    }
+    else {
+        NSInteger groupIndex = 0;
         NSMutableArray *allMessages = [self messages];
         
-        for (int i = 0; i < allMessages.count; i++) {
+        for (NSInteger i = 0; i < allMessages.count; i++) {
             if (i == 0) {
                 NSMutableArray *firstGroup = [NSMutableArray new];
                 [firstGroup addObject:allMessages[i]];
                 [conversation addObject:firstGroup];
-            } else {
+            }
+            else {
                 id<SOMessage> prevMessage    = allMessages[i-1];
                 id<SOMessage> currentMessage = allMessages[i];
                 

@@ -56,7 +56,8 @@
 /**
  * Reloading datasource
  */
-- (void)refreshMessagesAndScroll:(BOOL)scroll;
+-(void) refreshForMessage:(id<SOMessage>) message
+                andScroll:(BOOL)needScroll;
 
 /**
  * Reloading only uploading media cells
