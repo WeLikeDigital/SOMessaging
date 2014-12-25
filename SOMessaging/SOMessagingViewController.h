@@ -53,6 +53,7 @@
  */
 - (void)receiveMessage:(id<SOMessage>)message;
 
+-(void) refreshMessages;
 /**
  * Reloading datasource
  */
