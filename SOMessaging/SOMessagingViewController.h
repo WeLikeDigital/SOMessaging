@@ -53,14 +53,11 @@
  */
 - (void)receiveMessage:(id<SOMessage>)message;
 
-<<<<<<< Updated upstream
--(void) refreshMessages;
-=======
--(void) refreshMessagesAndScroll:(BOOL)needScroll;
->>>>>>> Stashed changes
 /**
  * Reloading datasource
  */
+ -(void) refreshMessagesAndScroll:(BOOL)needScroll;
+ 
 -(void) refreshForMessage:(id<SOMessage>) message
                 andScroll:(BOOL)needScroll;
 
