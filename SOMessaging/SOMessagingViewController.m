@@ -465,7 +465,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessages];
+    [self refreshMessagesAndScroll:YES];
 }
 
 - (void)receiveMessage:(id<SOMessage>) message
@@ -475,7 +475,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     NSMutableArray *messages = [self messages];
     [messages addObject:message];
     
-    [self refreshMessages];
+    [self refreshMessagesAndScroll:YES];
 }
 
 -(void) refreshForMessage:(id<SOMessage>) message
@@ -527,22 +527,25 @@ static NSString *const kTypingBubbleImageName = @"typing";
     }
 }
 
-- (void)refreshMessages
+- (void)refreshMessagesAndScroll:(BOOL)needScroll;
 {
     self.conversation = [self grouppedMessages];
     
     [self.tableView reloadData];
     
     self.tableView.tableFooterView = nil;
-    NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
-    NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
     
-    if (row >= 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row
-                                                    inSection:section];
-        [self.tableView scrollToRowAtIndexPath:indexPath
-                              atScrollPosition:UITableViewScrollPositionBottom
-                                      animated:YES];
+    if (needScroll) {
+        NSInteger section = [self numberOfSectionsInTableView:self.tableView] - 1;
+        NSInteger row     = [self tableView:self.tableView numberOfRowsInSection:section] - 1;
+        
+        if (row >= 0) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row
+                                                        inSection:section];
+            [self.tableView scrollToRowAtIndexPath:indexPath
+                                  atScrollPosition:UITableViewScrollPositionBottom
+                                          animated:YES];
+        }
     }
 }
 
