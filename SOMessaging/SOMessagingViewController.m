@@ -192,7 +192,8 @@ static NSString *const kTypingBubbleImageName = @"typing";
     return self.conversation.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
     if (section < 0) {
         return 0;
@@ -505,17 +506,19 @@ static NSString *const kTypingBubbleImageName = @"typing";
                               withRowAnimation:UITableViewRowAnimationNone];
     }
     else {
+        self.conversation = [self grouppedMessages];
+        
         NSInteger section = ([self numberOfSectionsInTableView:self.tableView] - 1) ? : 0;
         NSInteger row     = [self tableView:self.tableView
-                      numberOfRowsInSection:section];
+                      numberOfRowsInSection:section] - 1;
         
         indexPath = [NSIndexPath indexPathForRow:row
                                        inSection:section];
         
-        self.conversation = [self grouppedMessages];
+        
         
 //        NSLog(@"INSERT NEW ROW = %ld", (long)row);
-        if (row == self.messages.count-1) {
+        if (row == [self.conversation[section] count]-1) {
             [self.tableView insertRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationBottom];
         }
