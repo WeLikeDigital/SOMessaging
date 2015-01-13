@@ -515,9 +515,10 @@ static NSString *const kTypingBubbleImageName = @"typing";
         self.conversation = [self grouppedMessages];
         
 //        NSLog(@"INSERT NEW ROW = %ld", (long)row);
-        
-        [self.tableView insertRowsAtIndexPaths:@[indexPath]
-                              withRowAnimation:UITableViewRowAnimationBottom];
+        if (row == self.messages.count-1) {
+            [self.tableView insertRowsAtIndexPaths:@[indexPath]
+                                  withRowAnimation:UITableViewRowAnimationBottom];
+        }
     }
     
     if (needScroll) {
