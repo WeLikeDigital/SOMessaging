@@ -74,6 +74,14 @@
 + (void) setMessageLeftMargin:(CGFloat)margin;
 + (CGFloat) messageRightMargin;
 + (void) setMessageRightMargin:(CGFloat)margin;
++ (CGFloat) userImageSideMargin;
++ (void) setUserImageSideMargin:(CGFloat)margin;
+
++ (CGFloat) bubbleRightMargin;
++ (void) setBubbleRightMargin: (CGFloat)margin;
+
++ (CGFloat) bubbleLeftMargin;
++ (void) setBubbleLeftMargin: (CGFloat)margin;
 
 + (CGFloat) maxContentOffsetX;
 + (void) setMaxContentOffsetX:(CGFloat)offsetX;

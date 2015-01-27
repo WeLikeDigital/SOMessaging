@@ -49,6 +49,11 @@ static CGFloat messageRightMargin;
 static CGFloat maxContentOffsetX;
 static CGFloat contentOffsetX;
 
+static CGFloat userImageSideMargin;
+
+static CGFloat bubbleRightMargin;
+static CGFloat bubbleLeftMargin;
+
 static CGFloat initialTimeLabelPosX;
 static BOOL cellIsDragging;
 
@@ -95,6 +100,10 @@ static BOOL cellIsDragging;
     messageBottomMargin = 9;
     messageLeftMargin = 15;
     messageRightMargin = 25;
+    
+    userImageSideMargin = kUserImageViewLeftMargin;
+    bubbleLeftMargin = kBubbleLeftMargin;
+    bubbleRightMargin = kBubbleRightMargin;
     
     contentOffsetX = 0;
     maxContentOffsetX = 50;
@@ -349,8 +358,8 @@ static BOOL cellIsDragging;
     balloonFrame.origin.y = 0;
     frame.origin.x = self.message.fromMe ? messageLeftMargin : (balloonFrame.size.width - frame.size.width - messageLeftMargin);
     if (!self.message.fromMe && self.userImage) {
-        frame.origin.x += kUserImageViewLeftMargin + self.userImageViewSize.width;
-        balloonFrame.origin.x = kUserImageViewLeftMargin + self.userImageViewSize.width;
+        frame.origin.x += userImageSideMargin + self.userImageViewSize.width;
+        balloonFrame.origin.x = userImageSideMargin + self.userImageViewSize.width;
     }
     
     frame.origin.x += self.contentInsets.left - self.contentInsets.right;
@@ -384,23 +393,23 @@ static BOOL cellIsDragging;
     }
     
     if (self.message.fromMe) {
-        userRect.origin.x = balloonFrame.origin.x + kUserImageViewLeftMargin + balloonFrame.size.width;
+        userRect.origin.x = balloonFrame.origin.x + userImageSideMargin + balloonFrame.size.width;
     } else {
-        userRect.origin.x = balloonFrame.origin.x - kUserImageViewLeftMargin - userRect.size.width;
+        userRect.origin.x = balloonFrame.origin.x - userImageSideMargin - userRect.size.width;
     }
     self.userImageView.frame = userRect;
     self.userImageView.image = self.userImage;
     
     CGRect frm = self.containerView.frame;
-    frm.origin.x = self.message.fromMe ? self.contentView.frame.size.width - balloonFrame.size.width - kBubbleRightMargin : kBubbleLeftMargin;
+    frm.origin.x = self.message.fromMe ? self.contentView.frame.size.width - balloonFrame.size.width - bubbleRightMargin : bubbleLeftMargin;
     frm.origin.y = kBubbleTopMargin;
     frm.size.height = balloonFrame.size.height;
     frm.size.width = balloonFrame.size.width;
     if (!CGSizeEqualToSize(userRect.size, CGSizeZero) && self.userImage) {
         self.userImageView.hidden = NO;
-        frm.size.width += kUserImageViewLeftMargin + userRect.size.width;
+        frm.size.width += userImageSideMargin + userRect.size.width;
         if (self.message.fromMe) {
-            frm.origin.x -= kUserImageViewLeftMargin + userRect.size.width;
+            frm.origin.x -= userImageSideMargin + userRect.size.width;
         }
     }
     
@@ -486,7 +495,7 @@ static BOOL cellIsDragging;
     newFrame.size = self.mediaImageViewSize;
 
     if (!self.message.fromMe && self.userImage) {
-        newFrame.origin.x += kUserImageViewLeftMargin + self.userImageViewSize.width;
+        newFrame.origin.x += userImageSideMargin + self.userImageViewSize.width;
     }
 
     self.mediaImageView.frame = newFrame;
@@ -511,9 +520,9 @@ static BOOL cellIsDragging;
     }
 
     if (self.message.fromMe) {
-        userRect.origin.x = frame.origin.x + kUserImageViewLeftMargin + frame.size.width;
+        userRect.origin.x = frame.origin.x + userImageSideMargin + frame.size.width;
     } else {
-        userRect.origin.x = frame.origin.x - kUserImageViewLeftMargin - userRect.size.width;
+        userRect.origin.x = frame.origin.x - userImageSideMargin - userRect.size.width;
     }
     self.userImageView.frame = userRect;
     self.userImageView.image = self.userImage;
@@ -524,14 +533,14 @@ static BOOL cellIsDragging;
     CGRect userRect = self.userImageView.frame;
 
     CGRect frm = self.containerView.frame;
-    frm.origin.x = self.message.fromMe ? self.contentView.frame.size.width - frame.size.width - kBubbleRightMargin : kBubbleLeftMargin;
+    frm.origin.x = self.message.fromMe ? self.contentView.frame.size.width - frame.size.width - bubbleRightMargin : bubbleLeftMargin;
     frm.origin.y = kBubbleTopMargin;
     frm.size.width = frame.size.width;
     if (!CGSizeEqualToSize(userRect.size, CGSizeZero) && self.userImage) {
         self.userImageView.hidden = NO;
-        frm.size.width += kUserImageViewLeftMargin + userRect.size.width;
+        frm.size.width += userImageSideMargin + userRect.size.width;
         if (self.message.fromMe) {
-            frm.origin.x -= kUserImageViewLeftMargin + userRect.size.width;
+            frm.origin.x -= userImageSideMargin + userRect.size.width;
         }
     }
 
@@ -786,6 +795,21 @@ static BOOL cellIsDragging;
 + (void) setMessageRightMargin:(CGFloat)margin
 {
     messageRightMargin = margin;
+}
+
++ (void) setBubbleRightMargin: (CGFloat)margin
+{
+    bubbleRightMargin = margin;
+}
+
++ (void) setBubbleLeftMargin: (CGFloat)margin
+{
+    bubbleLeftMargin = margin;
+}
+
++ (void) setUserImageSideMargin:(CGFloat)margin
+{
+    userImageSideMargin = margin;
 }
 
 + (CGFloat)maxContentOffsetX

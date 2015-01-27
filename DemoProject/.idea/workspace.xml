@@ -18,7 +18,7 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_4bdf0fcdc888dd09aee6299a7a00cb0db57984ea" />
   <component name="FavoritesManager">
     <favorites_list name="SOSimpleChatDemo" />
   </component>
@@ -49,8 +49,8 @@
       <file leaf-file-name="SOMessagingViewController.h" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4413793" vertical-offset="256" max-vertical-offset="1104">
-              <caret line="42" column="66" selection-start-line="42" selection-start-column="66" selection-end-line="42" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.3751724" vertical-offset="256" max-vertical-offset="1104">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -484,8 +484,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../SOMessaging/SOMessagingViewController.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4413793" vertical-offset="256" max-vertical-offset="1104">
-          <caret line="42" column="66" selection-start-line="42" selection-start-column="66" selection-end-line="42" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.3751724" vertical-offset="256" max-vertical-offset="1104">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding />
         </state>
       </provider>
