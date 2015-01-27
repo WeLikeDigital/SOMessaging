@@ -93,12 +93,12 @@ static NSString *const kTypingBubbleImageName = @"typing";
 
 -(void) setupInputView
 {
-    self.inputView = [[SOMessageInputView alloc] init];
-    self.inputView.tintColor = [UIColor blueColor];
-    self.inputView.delegate = self;
-    self.inputView.tableView = self.tableView;
-    [self.view addSubview:self.inputView];
-    [self.inputView adjustPosition];
+    self.messageInputView = [[SOMessageInputView alloc] init];
+    self.messageInputView.tintColor = [UIColor blueColor];
+    self.messageInputView.delegate = self;
+    self.messageInputView.tableView = self.tableView;
+    [self.view addSubview:self.messageInputView];
+    [self.messageInputView adjustPosition];
 }
 
 #pragma mark - View lifecycle
@@ -181,7 +181,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
 // This code will work only if this vc hasn't navigation controller
 - (BOOL)shouldAutorotate
 {
-    return !self.inputView.viewIsDragging;
+    return !self.messageInputView.viewIsDragging;
 }
 
 #pragma mark - Table view data source
