@@ -30,15 +30,6 @@
 #import "SOMessage.h"
 #import "SOMessageCell.h"
 
-static NSString *const kMessageDateBackgroundImageName = @"messagesDateBackground";
-static NSString *const kReceiveBubbleImageName = @"received";
-static NSString *const kSendingBubbleImageName = @"sending";
-static NSString *const kNotSentBubbleImageName = @"not_sent";
-static NSString *const kSentBubbleImageName = @"sent";
-static NSString *const kDeliveredBubbleImageName = @"delivered";
-static NSString *const kReadBubbleImageName = @"read";
-static NSString *const kTypingBubbleImageName = @"typing";
-
 @protocol LongPressOnCell <NSObject>
 
 -(BOOL) shouldShowMenuOnLongPress;
