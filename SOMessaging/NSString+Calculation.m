@@ -26,7 +26,8 @@
 
 @implementation NSString (Calculation)
 
-- (CGSize)usedSizeForMaxWidth:(CGFloat)width withFont:(UIFont *)font
+- (CGSize)usedSizeForMaxWidth:(CGFloat)width
+                     withFont:(UIFont *)font
 {
     NSTextStorage *textStorage = [[NSTextStorage alloc]
                                   initWithString:self];

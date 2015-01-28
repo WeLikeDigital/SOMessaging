@@ -353,12 +353,12 @@ static BOOL cellIsDragging;
     
     CGRect balloonFrame = self.balloonImageView.frame;
     balloonFrame.size.width = frame.size.width + messageLeftMargin + messageRightMargin;
-    balloonFrame.size.width -= [self.message fromMe] ? 0 : 10;
     balloonFrame.size.height = frame.size.height + messageTopMargin + messageBottomMargin;
     balloonFrame.origin.y = 0;
-    frame.origin.x = self.message.fromMe ? messageLeftMargin : (balloonFrame.size.width - frame.size.width - messageLeftMargin);
+    frame.origin.x = self.message.fromMe ? messageLeftMargin : (balloonFrame.size.width - frame.size.width);
     if (!self.message.fromMe && self.userImage) {
         frame.origin.x += userImageSideMargin + self.userImageViewSize.width;
+        frame.origin.x -= self.message.fromMe ? 0 : messageRightMargin;
         balloonFrame.origin.x = userImageSideMargin + self.userImageViewSize.width;
     }
     
