@@ -65,6 +65,7 @@ static const CGFloat kSendButtonWidth = 50;
     self.textleftMargin = 5.0f;
     self.textTopMargin = 5.5f;
     self.textBottomMargin = 5.5f;
+    self.textViewInsets = UIEdgeInsetsMake(6.0f, 6.0f, 5.0f, 6.0f);
     
     CGRect frame = CGRectZero;
     frame.size.height = self.textInitialHeight;
@@ -163,16 +164,11 @@ static const CGFloat kSendButtonWidth = 50;
     UIImage *image = [UIImage imageNamed:@"inputTextBG.png"];
     self.textBgImageView.image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(13, 13, 13, 13)];
     
-    CGFloat topPadding = 6.0f;
-    CGFloat bottomPadding = 5.0f;
-    CGFloat leftPadding = 6.0f;
-    CGFloat rightPadding = 6.0f;
-    
     CGRect txtFrame = self.textView.frame;
-    txtFrame.origin.x = txtBgFrame.origin.x + leftPadding;
-    txtFrame.origin.y = txtBgFrame.origin.y + topPadding;
-    txtFrame.size.width = txtBgFrame.size.width - leftPadding - rightPadding;
-    txtFrame.size.height = txtBgFrame.size.height - topPadding - bottomPadding;
+    txtFrame.origin.x = txtBgFrame.origin.x + self.textViewInsets.left;
+    txtFrame.origin.y = txtBgFrame.origin.y + self.textViewInsets.top;
+    txtFrame.size.width = txtBgFrame.size.width - self.textViewInsets.left - self.textViewInsets.right;
+    txtFrame.size.height = txtBgFrame.size.height - self.textViewInsets.top - self.textViewInsets.bottom;
     self.textView.frame = txtFrame;
     
     [self adjustPosition];
@@ -297,16 +293,11 @@ static const CGFloat kSendButtonWidth = 50;
 
 -(void) correctTextViewPosition
 {
-    CGFloat topPadding = 6.0f;
-    CGFloat bottomPadding = 5.0f;
-    CGFloat leftPadding = 6.0f;
-    CGFloat rightPadding = 6.0f;
-    
     CGRect txtFrame = self.textView.frame;
-    txtFrame.origin.x = self.textBgImageView.frame.origin.x + leftPadding;
-    txtFrame.origin.y = self.textBgImageView.frame.origin.y + topPadding;
-    txtFrame.size.width = self.textBgImageView.frame.size.width - leftPadding - rightPadding;
-    txtFrame.size.height = self.textBgImageView.frame.size.height - topPadding - bottomPadding;
+    txtFrame.origin.x = self.textBgImageView.frame.origin.x + self.textViewInsets.left;
+    txtFrame.origin.y = self.textBgImageView.frame.origin.y + self.textViewInsets.top;
+    txtFrame.size.width = self.textBgImageView.frame.size.width - self.textViewInsets.left - self.textViewInsets.right;
+    txtFrame.size.height = self.textBgImageView.frame.size.height - self.textViewInsets.top - self.textViewInsets.bottom;
     self.textView.frame = txtFrame;
 }
 

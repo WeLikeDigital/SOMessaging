@@ -52,6 +52,7 @@
 @property (nonatomic) CGFloat textBottomMargin;
 @property (nonatomic) CGFloat textleftMargin;
 @property (nonatomic) CGFloat textRightMargin;
+@property (nonatomic) UIEdgeInsets textViewInsets;
 //--
 
 @property (weak, nonatomic) id<SOMessagingDelegate> delegate;
