@@ -94,6 +94,24 @@
  */
 - (UIFont *)messageFont;
 
+/*
+ * Font of time label
+ */
+
+- (UIFont *)headerSectionFont;
+
+/*
+ * Font color of time label
+ */
+
+- (UIColor *)headerSectionFontColor;
+
+/*
+ * Height of time label section
+ */
+
+- (CGFloat)headerSectionHeight;
+
 /**
  * Size of photo or video thumbnail imageView
  */

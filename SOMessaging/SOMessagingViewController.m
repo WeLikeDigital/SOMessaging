@@ -222,7 +222,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if ([self intervalForMessagesGrouping])
-        return 40;
+        return [self headerSectionHeight];
     
     return 0.01f;
 }
@@ -232,7 +232,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
     if (![self intervalForMessagesGrouping])
         return nil;
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, [self headerSectionHeight])];
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     view.backgroundColor = [UIColor clearColor];
     
@@ -242,8 +242,8 @@ static NSString *const kTypingBubbleImageName = @"typing";
     UILabel *label = [[UILabel alloc] init];
     label.text = [self conversationFormattedDate:date];
     
-    label.textColor = [UIColor grayColor];
-    label.font = [UIFont fontWithName:@"AvenirNextCyr-Light" size:11];
+    label.textColor = [self headerSectionFontColor];
+    label.font = [self headerSectionFont];
     [label sizeToFit];
     
     label.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
@@ -338,42 +338,42 @@ static NSString *const kTypingBubbleImageName = @"typing";
 -(CGFloat) calculateHeightForMessage:(id < SOMessage >) message
 {
     CGSize size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
-                                               withFont:[self messageFont]];
+                                           withFont:[self messageFont]];
     if (message.attributes) {
-            size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
-                                      withAttributes:message.attributes];
-        }
-
-    if (self.balloonMinWidth) {
-            CGFloat messageMinWidth = self.balloonMinWidth - [SOMessageCell messageLeftMargin] - [SOMessageCell messageRightMargin];
-            messageMinWidth -= [message fromMe] ? 0 : 10;
-            if (size.width <  messageMinWidth) {
-                size.width = messageMinWidth;
-                
-                CGSize newSize = [message.body usedSizeForMaxWidth:messageMinWidth
-                                                          withFont:[self messageFont]];
-                if (message.attributes) {
-                    newSize = [message.body usedSizeForMaxWidth:messageMinWidth
-                                                 withAttributes:message.attributes];
-                }
-                
-                size.height = newSize.height;
-            }
+        size = [message.body usedSizeForMaxWidth:[self messageMaxWidth]
+                                  withAttributes:message.attributes];
     }
-
+    
+    if (self.balloonMinWidth) {
+        CGFloat messageMinWidth = self.balloonMinWidth - [SOMessageCell messageLeftMargin] - [SOMessageCell messageRightMargin];
+        messageMinWidth -= [message fromMe] ? 0 : 10;
+        if (size.width <  messageMinWidth) {
+            size.width = messageMinWidth;
+            
+            CGSize newSize = [message.body usedSizeForMaxWidth:messageMinWidth
+                                                      withFont:[self messageFont]];
+            if (message.attributes) {
+                newSize = [message.body usedSizeForMaxWidth:messageMinWidth
+                                             withAttributes:message.attributes];
+            }
+            
+            size.height = newSize.height;
+        }
+    }
+    
     CGFloat messageMinHeight = self.balloonMinHeight - ([SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin]);
     if ([self balloonMinHeight] && size.height < messageMinHeight) {
-            size.height = messageMinHeight;
-        }
-
+        size.height = messageMinHeight;
+    }
+    
     size.height += [SOMessageCell messageTopMargin] + [SOMessageCell messageBottomMargin];
-
+    
     if (!CGSizeEqualToSize([self userImageSize], CGSizeZero)) {
-            if (size.height < [self userImageSize].height) {
-                size.height = [self userImageSize].height;
-            }
+        if (size.height < [self userImageSize].height) {
+            size.height = [self userImageSize].height;
         }
-
+    }
+    
     return size.height + kBubbleTopMargin + kBubbleBottomMargin;
 }
 
@@ -397,7 +397,7 @@ static NSString *const kTypingBubbleImageName = @"typing";
 - (UIImage *)balloonImageForSent
 {
     UIImage *bubble = [UIImage imageNamed:kSentBubbleImageName];
-    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(23, 21, 16, 27)];
+    return [bubble resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
 }
 
 - (UIImage *)balloonImageForSending
@@ -457,6 +457,21 @@ static NSString *const kTypingBubbleImageName = @"typing";
 - (CGSize)userImageSize
 {
     return CGSizeMake(0, 0);
+}
+
+-(UIFont *)headerSectionFont
+{
+    return [UIFont fontWithName:@"AvenirNextCyr-Light" size:11];
+}
+
+-(UIColor *)headerSectionFontColor
+{
+    return [UIColor grayColor];
+}
+
+-(CGFloat)headerSectionHeight
+{
+    return 40;
 }
 
 #pragma mark - Public methods
