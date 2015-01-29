@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SOMessaging"
-  s.version      = "1.0.0.1"
+  s.version      = "1.0.0.2"
   s.summary      = "Messaging library for iOS 7.x "
   s.platform     = :ios, '7.0'
   s.source       = { :git => "https://github.com/SocialObjects-Software/SOMessaging.git", :tag => "1.0.0" }
